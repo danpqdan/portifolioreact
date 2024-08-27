@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DiAtom } from 'react-icons/di';
 import { FaGithub, FaInstagram, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa';
 import { FcLike } from 'react-icons/fc';
-import imgdan  from '../../assets/danimg.jpg'
+import imgdan from '../../assets/danimg.jpg';
 
-import "../css/style.module.mainprofile.css"
+import "../css/style.module.mainprofile.css";
 
 const MainProfile = () => {
 
