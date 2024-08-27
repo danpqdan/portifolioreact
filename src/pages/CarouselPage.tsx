@@ -11,6 +11,7 @@ import MainProfile from './components/MainProfile'
 // Little helpers ...
 const img1 = "https://images.stockcake.com/public/d/f/2/df224a92-6796-436e-baa0-781200184ddc_large/illuminated-night-tree-stockcake.jpg"
 const img2 = "https://images.stockcake.com/public/8/3/1/83123b41-56c5-475d-9836-cfdeaedfd7d5_large/illuminated-night-fountain-stockcake.jpg"
+const img3 = "https://images.stockcake.com/public/9/6/1/961945d7-aac6-4317-9907-ea918887b4ec_large/city-fireworks-celebration-stockcake.jpg"
 
 
 export default function CarrouselPrimary() {
@@ -61,12 +62,12 @@ export default function CarrouselPrimary() {
                         <img src={img2} style={{
                             opacity: '0.5',
                             width: '100%',
-                            height: '200%'
+                            height: '100%'
                         }} />
                     </ParallaxLayer>
 
                     <ParallaxLayer
-                        offset={2}
+                        offset={1}
                         speed={-0.4}
                         style={{
                             display: 'flex',
@@ -77,7 +78,24 @@ export default function CarrouselPrimary() {
                         <img src={img1} style={{
                             opacity: '0.5',
                             width: '100%',
-                            height: '200%'
+                            height: '140%'
+                        }} />
+                    </ParallaxLayer>
+
+                    
+                    <ParallaxLayer
+                        offset={3}
+                        speed={-0.4}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            pointerEvents: 'none',
+                        }}>
+                        <img src={img3} style={{
+                            opacity: '0.5',
+                            width: '100%',
+                            height: '140%'
                         }} />
                     </ParallaxLayer>
 
