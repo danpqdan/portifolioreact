@@ -1,0 +1,41 @@
+
+.content-skill {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    justify-items: center;
+}
+
+#container-skill{
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.content-skill, ul{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+}
+
+#container-skill-list{
+    color: aliceblue;
+    display: block;
+    font-weight: 100;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+    list-style: inside;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    text-align: center;
+}

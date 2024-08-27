@@ -1,0 +1,17 @@
+#parallax-primario::-webkit-scrollbar {
+    width: 12px;
+}
+
+#parallax-primario::-webkit-scrollbar-track {
+    background: transparent;
+    /* color of the tracking area */
+}
+
+#parallax-primario::-webkit-scrollbar-thumb {
+    background-color: rgb(170, 189, 182);
+    /* color of the scroll thumb */
+    border-radius: 20px;
+    /* roundness of the scroll thumb */
+    border: 0.5px solid rgb(238, 226, 226);
+    /* creates padding around scroll thumb */
+}

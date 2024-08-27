@@ -1,0 +1,34 @@
+.c {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  will-change: transform, opacity;
+  border-radius: 10px;
+
+}
+
+.front,
+.back {
+  background-size: cover;
+}
+
+.back {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.front {
+  background-color: rgba(0, 0, 0, 0.466);
+}
+
+.container {
+  position: relative;
+  width: 40%;
+  height: 40%;
+  display: flex;
+  margin: 0 10px;
+}

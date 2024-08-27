@@ -1,0 +1,25 @@
+[
+    {
+        "image": "https://learn.microsoft.com/en-us/azure/architecture/includes/images/microservices-logical.png",
+        "description": "microservices",
+        "detalhes": "Um projeto de microservices envolve a arquitetura e implementação de um sistema distribuído, onde a funcionalidade da aplicação é dividida em múltiplos serviços pequenos e independentes. Cada microserviço é responsável por uma tarefa específica e se comunica com outros serviços através de protocolos leves, como HTTP/REST ou mensagens. Em Java, frameworks como Spring Boot são amplamente utilizados para criar esses microserviços, aproveitando a robustez e escalabilidade da linguagem."
+    },
+    {
+        "image": "https://i0.wp.com/brasap.com.br/wp-content/uploads/2020/05/Algoritmos.png?fit=512%2C288&ssl=1",
+        "description": "algoritimos-logica",
+        "detalhes": "Um projeto de microservices envolve a arquitetura e implementação de um sistema distribuído, onde a funcionalidade da aplicação é dividida em múltiplos serviços pequenos e independentes. Cada microserviço é responsável por uma tarefa específica e se comunica com outros serviços através de protocolos leves, como HTTP/REST ou mensagens. Em Java, frameworks como Spring Boot são amplamente utilizados para criar esses microserviços, aproveitando a robustez e escalabilidade da linguagem."
+
+    },
+    {
+        "image": "https://i0.wp.com/brasap.com.br/wp-content/uploads/2020/05/Algoritmos.png?fit=512%2C288&ssl=1",
+        "description": "sgdbr(Banco de dados)",
+        "detalhes": "Um projeto de microservices envolve a arquitetura e implementação de um sistema distribuído, onde a funcionalidade da aplicação é dividida em múltiplos serviços pequenos e independentes. Cada microserviço é responsável por uma tarefa específica e se comunica com outros serviços através de protocolos leves, como HTTP/REST ou mensagens. Em Java, frameworks como Spring Boot são amplamente utilizados para criar esses microserviços, aproveitando a robustez e escalabilidade da linguagem."
+
+    },
+    {
+        "image": "https://i0.wp.com/brasap.com.br/wp-content/uploads/2020/05/Algoritmos.png?fit=512%2C288&ssl=1",
+        "description": "find-cep",
+        "detalhes": "Um projeto de microservices envolve a arquitetura e implementação de um sistema distribuído, onde a funcionalidade da aplicação é dividida em múltiplos serviços pequenos e independentes. Cada microserviço é responsável por uma tarefa específica e se comunica com outros serviços através de protocolos leves, como HTTP/REST ou mensagens. Em Java, frameworks como Spring Boot são amplamente utilizados para criar esses microserviços, aproveitando a robustez e escalabilidade da linguagem."
+
+    }
+]
