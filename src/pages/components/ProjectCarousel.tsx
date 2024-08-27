@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../css/style.module.carouselProject.css';
 
-import jsonimg from "../../assets/imagensproject.json"
+import jsonimg from "../../assets/imagensproject.json";
 
 
 type Slide = {
