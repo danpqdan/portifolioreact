@@ -26,6 +26,8 @@ const Navbar = () => {
                     <a href="https://github.com/danpqdan" className='gitnavbar'>
                         <FaGithub className='giticon' />
                         <span>Daniel Santos</span>
+                        <p>Candy Or Trick?</p>
+
                     </a>
                 </nav>
             )}
@@ -34,6 +36,7 @@ const Navbar = () => {
                     <a href="https://github.com/danpqdan" className='gitnavbar'>
                         <FaGithub className='giticon' />
                         <span>Daniel Santos</span>
+                        <p>Candy Or Trick?</p>
                     </a>
                 </nav>
 
@@ -43,6 +46,8 @@ const Navbar = () => {
                     <a href="https://github.com/danpqdan" target='_blank' className='gitnavbar'>
                         <FaGithub className='giticon' />
                         <span>Daniel Santos</span>
+                        <p>Candy Or Trick?</p>
+
                     </a>
                 </nav>
 
