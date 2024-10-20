@@ -43,7 +43,7 @@ const MainProfile = () => {
                     <div className='info-coluna-btn'>
 
                         <button><a href="https://www.instagram.com/danpqpdan/" target='_blank' ><FaInstagram /></a></button>
-                        <button><a href="https://www.linkedin.com/in/danpqdan/" target='_blank' ><FaLinkedinIn /></a></button>
+                        <button><a href="https://www.linkedin.com/in/daniel-santos-694578333s" target='_blank' ><FaLinkedinIn /></a></button>
                         <button><a href="https://github.com/danpqdan" target='_blank' ><FaGithub /></a></button>
                         <button><a href="tel:+5511962696757"><FaWhatsapp /></a></button>
                         <button><form><FcLike /></form><label></label></button>
@@ -68,7 +68,7 @@ const MainProfile = () => {
                         <div className='info-coluna-btn'>
 
                             <button><a href="https://www.instagram.com/danpqpdan/" target='_blank' ><FaInstagram /></a></button>
-                            <button><a href="https://www.linkedin.com/in/danpqdan/" target='_blank' ><FaLinkedinIn /></a></button>
+                            <button><a href="https://www.linkedin.com/in/daniel-santos-694578333" target='_blank' ><FaLinkedinIn /></a></button>
                             <button><a href="https://github.com/danpqdan" target='_blank' ><FaGithub /></a></button>
                             <button><a href="tel:+5511962696757"><FaWhatsapp /></a></button>
                             <button><form><FcLike /></form><label></label></button>
@@ -95,7 +95,7 @@ const MainProfile = () => {
                     <div className='info-coluna-btn'>
 
                         <button><a href="https://www.instagram.com/danpqpdan/" target='_blank' ><FaInstagram /></a></button>
-                        <button><a href="https://www.linkedin.com/in/danpqdan/" target='_blank' ><FaLinkedinIn /></a></button>
+                        <button><a href="https://www.linkedin.com/in/daniel-santos-694578333" target='_blank' ><FaLinkedinIn /></a></button>
                         <button><a href="https://github.com/danpqdan" target='_blank' ><FaGithub /></a></button>
                         <button><a href="tel:+5511962696757"><FaWhatsapp /></a></button>
                         <button><form><FcLike /></form><label></label></button>

@@ -8,6 +8,7 @@ type Slide = {
     image: string;
     description: string;
     detalhes: string;
+    link: string
 };
 
 const ProjectCarousel = () => {
@@ -40,7 +41,7 @@ const ProjectCarousel = () => {
                     <>
                         <div className="carousel-slide" key={index}>
                             <h2 className="tittle-project" style={{ fontWeight: "100", textTransform: "uppercase", color: "white", width: "100%" }}>{slide.description}</h2>
-                            <button className='btn-project'>
+                            <button className='btn-project' onClick={() => window.open(slide.link, '_blank')} data-link={slide.link}>
                                 <img src={slide.image} alt={`Slide ${index}`} className="carousel-image" />
                             </button>
                         </div>

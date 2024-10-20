@@ -9,9 +9,9 @@ import MainProfile from './components/MainProfile'
 
 
 // Little helpers ...
-const img1 = "https://images.stockcake.com/public/d/f/2/df224a92-6796-436e-baa0-781200184ddc_large/illuminated-night-tree-stockcake.jpg"
-const img2 = "https://images.stockcake.com/public/8/3/1/83123b41-56c5-475d-9836-cfdeaedfd7d5_large/illuminated-night-fountain-stockcake.jpg"
-const img3 = "https://images.stockcake.com/public/9/6/1/961945d7-aac6-4317-9907-ea918887b4ec_large/city-fireworks-celebration-stockcake.jpg"
+const img1 = "https://img.freepik.com/fotos-gratis/fonte-assustadora-do-dia-das-bruxas_23-2151838517.jpg?t=st=1729430123~exp=1729433723~hmac=8b7de624275b78ffd1a65a9e57b92b8134c16e4955e08cc0f20e88017e684567&w=360"
+const img2 = "https://img.freepik.com/fotos-gratis/fonte-assustadora-do-dia-das-bruxas_23-2151838517.jpg?t=st=1729430123~exp=1729433723~hmac=8b7de624275b78ffd1a65a9e57b92b8134c16e4955e08cc0f20e88017e684567&w=360"
+const img3 = "https://img.freepik.com/fotos-gratis/fonte-assustadora-do-dia-das-bruxas_23-2151838517.jpg?t=st=1729430123~exp=1729433723~hmac=8b7de624275b78ffd1a65a9e57b92b8134c16e4955e08cc0f20e88017e684567&w=360"
 
 
 export default function CarrouselPrimary() {
@@ -82,7 +82,7 @@ export default function CarrouselPrimary() {
                         }} />
                     </ParallaxLayer>
 
-                    
+
                     <ParallaxLayer
                         offset={3}
                         speed={-0.4}
@@ -128,7 +128,7 @@ export default function CarrouselPrimary() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            height:'100%'
+                            height: '100%'
                         }}>
                         <SobreComponent />
                     </ParallaxLayer>
