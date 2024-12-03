@@ -1,0 +1,17 @@
+# Etapa de build
+FROM node:18-alpine AS build
+
+WORKDIR /frontend
+COPY ./reactvite-app/package*.json ./ 
+RUN npm install
+RUN npm install "@react-spring/parallax" react-icons react-dom swiper
+COPY ./reactvite-app . 
+RUN npm run build
+
+
+FROM nginx:alpine
+
+COPY --from=build /reactvite-app/build /usr/share/nginx/html
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
