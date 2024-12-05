@@ -15,11 +15,11 @@ import br.com.microservices.microservices.sendemail.interfaces.LikeRepository;
 import br.com.microservices.microservices.sendemail.models.ContatoDTO;
 import br.com.microservices.microservices.sendemail.models.ContatoModel;
 import br.com.microservices.microservices.sendemail.models.LikeModel;
-import br.com.microservices.microservices.sendemail.service.EmailService;
+import br.com.microservices.microservices.sendemail.services.EmailService;
 
 @RestController
 @RequestMapping("/api")
-public class ControllerRoutes {
+public class EmailRoutes {
     @Autowired
     ContatoRepository contatoRepository;
     @Autowired
@@ -42,7 +42,7 @@ public class ControllerRoutes {
     @PostMapping("/contato")
     public String postComment(@RequestBody ContatoDTO dto) {
         try {
-            emailService.sendEmailToClient(dto.subject(), dto.body());
+            emailService.sendEmailToClient("danieltisantos@gmail.com", dto.subject(), dto.body());
             contatoRepository.save(new ContatoModel(dto.subject(), dto.body(), dto.review()));
             return "Email enviado com sucesso";
         } catch (Error e) {

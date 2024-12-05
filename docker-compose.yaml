@@ -1,28 +1,51 @@
-services:
-  reactVite:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
-    deploy:
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: "512M"
+# services:
+#   reactVite:
+#     build:
+#       context: .
+#       dockerfile: frontend/Dockerfile
+#     ports:
+#       - "3000:3000"
+#     environment:
+#       NODE_ENV: production
+#     deploy:
+#       resources:
+#         limits:
+#           cpus: "0.5"
+#           memory: "512M"
 
-  springIO:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
+#   springIO:
+#     build:
+#       context: .
+#       dockerfile: backend/Dockerfile
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       ENV_GROUP: EnvECommerce
+#     deploy:
+#       resources:
+#         limits:
+#           cpus: "1.0"
+#           memory: "1G"
+
+version: "2"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
     ports:
-      - "8080:8080"
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9093:9093"
     environment:
-      ENV_GROUP: EnvECommerce
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: "1G"
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_LISTENER_NAME_INSIDE: INSIDE
+      KAFKA_LISTENER_PORT: 9093
+      KAFKA_LISTENER_NAME_OUTSIDE: OUTSIDE
+      KAFKA_LISTENER_PORT_OUTSIDE: 9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_OUTSIDE: PLAINTEXT
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    expose:
+      - "9093"

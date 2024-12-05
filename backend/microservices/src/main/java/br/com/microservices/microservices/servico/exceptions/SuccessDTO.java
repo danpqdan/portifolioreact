@@ -1,4 +1,4 @@
-package br.com.microservices.microservices.produto.exceptions;
+package br.com.microservices.microservices.servico.exceptions;
 
 import java.time.LocalDateTime;
 
@@ -9,13 +9,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class ErrorDTO {
+@NoArgsConstructor
+public class SuccessDTO {
     private LocalDateTime timestamp;
     private int status;
-    private String erro;
-    private String mensagem;
-    private String caminho;
-
+    private String message;
+    private String path;
+    private Object data; // Dados adicionais, se houver
 }

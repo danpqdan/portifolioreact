@@ -28,6 +28,8 @@ public class SecurityConfig {
     private String secretProd;
     @Value("${api.security.route.dev}")
     private String secretDev;
+    @Value("${api.security.route.kafka}")
+    private String kafkaRoute;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -37,6 +39,7 @@ public class SecurityConfig {
                     var corsConfiguration = new CorsConfiguration();
                     corsConfiguration.addAllowedOriginPattern(secretProd);
                     corsConfiguration.addAllowedOriginPattern(secretDev);
+                    corsConfiguration.addAllowedOriginPattern(kafkaRoute);
                     corsConfiguration.addAllowedHeader("*");
                     corsConfiguration.addAllowedMethod("*");
                     corsConfiguration.setAllowCredentials(true);
@@ -46,8 +49,19 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/kafka/send").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/kafka/messages").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/singup/usuario").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/auth/singup/**").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/comercio/criar").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/servicos").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/servicos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/servicos/**").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/api/like").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/like").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/contato").permitAll()

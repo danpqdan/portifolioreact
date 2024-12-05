@@ -31,6 +31,7 @@ public class TokenService {
     public TokenService() {
         this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
+    
 
     public String generatedToken(Usuario user) {
         try {
