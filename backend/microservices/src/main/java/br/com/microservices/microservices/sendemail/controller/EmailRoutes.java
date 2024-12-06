@@ -1,21 +1,29 @@
 package br.com.microservices.microservices.sendemail.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import br.com.microservices.microservices.sendemail.interfaces.ContatoRepository;
 import br.com.microservices.microservices.sendemail.interfaces.LikeRepository;
-import br.com.microservices.microservices.sendemail.models.ContatoDTO;
 import br.com.microservices.microservices.sendemail.models.ContatoModel;
 import br.com.microservices.microservices.sendemail.models.LikeModel;
 import br.com.microservices.microservices.sendemail.services.EmailService;
+import br.com.microservices.microservices.servico.exceptions.ErrorDTO;
+import br.com.microservices.microservices.servico.exceptions.SuccessResponseException;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -39,16 +47,38 @@ public class EmailRoutes {
         return count;
     }
 
-    @PostMapping("/contato")
-    public String postComment(@RequestBody ContatoDTO dto) {
-        try {
-            emailService.sendEmailToClient("danieltisantos@gmail.com", dto.subject(), dto.body());
-            contatoRepository.save(new ContatoModel(dto.subject(), dto.body(), dto.review()));
-            return "Email enviado com sucesso";
-        } catch (Error e) {
-            return e.toString();
-        }
-    }
+    // @PostMapping("/review")
+    // public ResponseEntity<?> postComentarioPortifolio(@Valid @RequestBody ContatoModel contato,
+    //         BindingResult bindingResult) throws JsonProcessingException {
+    //     if (bindingResult.hasErrors()) {
+    //         List<String> errorMessages = bindingResult.getAllErrors().stream()
+    //                 .map(error -> error.getDefaultMessage())
+    //                 .collect(Collectors.toList());
+
+    //         ErrorDTO errorResponse = new ErrorDTO(
+    //                 LocalDateTime.now(),
+    //                 HttpStatus.BAD_REQUEST.value(),
+    //                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
+    //                 String.join(", ", errorMessages),
+    //                 "/api/review");
+
+    //         return ResponseEntity.badRequest().body(errorResponse);
+    //     } else {
+    //         if (contato.getRemetente().isEmpty()) {
+    //             emailService.sendEmailToReview(contato);
+    //             throw new SuccessResponseException(
+    //                     HttpStatus.OK.value(),
+    //                     "Sua review foi enviado com sucesso.",
+    //                     contato.getTitulo());
+    //         }
+    //         emailService.sendEmailToClient(contato);
+    //         contatoRepository.save(contato);
+    //         throw new SuccessResponseException(
+    //                 HttpStatus.OK.value(),
+    //                 "Sua review foi enviado com sucesso.",
+    //                 contato.getTitulo());
+    //     }
+    // }
 
     @GetMapping("/contato")
     public ResponseEntity<List<ContatoModel>> getComment() {

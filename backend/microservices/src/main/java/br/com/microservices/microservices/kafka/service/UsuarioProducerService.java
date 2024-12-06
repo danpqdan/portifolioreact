@@ -14,8 +14,12 @@ public class UsuarioProducerService {
 
     @Value("${app.kafka.topic.usuarios}")
     String usuarioRequestTopic;
-    @Value("${app.kafka.topic.emails}")
-    String emailRequestTopic;
+    @Value("${app.kafka.topic.emails-novo-cliente}")
+    String emailNovoClienteRequestTopic;
+    // @Value("${app.kafka.topic.emails}")
+    // String emailReviewRequestTopic;
+    // @Value("${app.kafka.topic.email-review-portifolio}")
+    // String emailReviewPortifolioRequestTopic;
 
     @Autowired
     @Qualifier("usuariokafkaTemplate") // Specify the correct bean by name
@@ -32,7 +36,15 @@ public class UsuarioProducerService {
 
     }
 
-    public void sendEmail(Object usuario) throws JsonProcessingException {
-        emailKafkaTemplate.send(emailRequestTopic, usuario);
+    public void sendEmailNovoCliente(Object usuario) throws JsonProcessingException {
+        emailKafkaTemplate.send(emailNovoClienteRequestTopic, usuario);
     }
+
+    // public void sendEmailReviewSave(Object usuario) throws JsonProcessingException {
+    //     emailKafkaTemplate.send(emailReviewRequestTopic, usuario);
+    // }
+
+    // public void sendEmailReviewPortifolioSave(Object usuario) throws JsonProcessingException {
+    //     emailKafkaTemplate.send(emailReviewPortifolioRequestTopic, usuario);
+    // }
 }

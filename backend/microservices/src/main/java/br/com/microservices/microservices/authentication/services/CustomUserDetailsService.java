@@ -71,7 +71,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             novoUsuario.setUsername(login.getUsername());
             novoUsuario.setRole(Roles.USER);
             usuarioProducerService.sendUsuario(novoUsuario);
-            usuarioProducerService.sendEmail(novoUsuario);
+            usuarioProducerService.sendEmailNovoCliente(novoUsuario);
             return novoUsuario;
         }
     }

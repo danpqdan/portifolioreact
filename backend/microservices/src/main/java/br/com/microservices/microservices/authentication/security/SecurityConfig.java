@@ -64,7 +64,7 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "/api/like").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/like").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/contato").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/review").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/servicos").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/servicos").permitAll()
 

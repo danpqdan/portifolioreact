@@ -12,6 +12,8 @@ import br.com.microservices.microservices.authentication.interfaces.UsuarioRepos
 import br.com.microservices.microservices.authentication.model.Usuario;
 import br.com.microservices.microservices.authentication.services.CustomUserDetailsService;
 import br.com.microservices.microservices.authentication.services.TokenService;
+import br.com.microservices.microservices.sendemail.interfaces.ContatoRepository;
+import br.com.microservices.microservices.sendemail.models.ContatoModel;
 import br.com.microservices.microservices.sendemail.services.EmailService;
 
 @Service
@@ -30,6 +32,8 @@ public class UsuarioConsumer {
     private KafkaTemplate<String, Object> emailkafkaTemplate;
     @Autowired
     CustomUserDetailsService userDetailsService;
+    @Autowired
+    ContatoRepository contatoRepository;
 
     @KafkaListener(topics = "${app.kafka.topic.usuarios}", groupId = "grupo-usuarios")
     public void criarUsuarioParaConsumo(Usuario usuario) {
@@ -41,13 +45,25 @@ public class UsuarioConsumer {
         }
     }
 
-    @KafkaListener(topics = "${app.kafka.topic.emails}", groupId = "grupo-usuarios")
-    public void criarEmailDeConsumoUsuario(Usuario usuario) {
+    @KafkaListener(topics = "${app.kafka.topic.emails-novo-cliente}", groupId = "grupo-usuarios")
+    public void sendEmailToClient(Usuario usuario) {
         var token = tokenService.generatedToken(usuario);
         String bodyEmail = String.format(
                 "Acesse o link para ativar seu usuário: <a href='http://localhost:8080/auth/singup/%s'>Ativar Conta</a>",
                 token);
-        emailService.sendEmailToClient(usuario.getEmail(), "Ativação de usuário", usuario.toString() + bodyEmail);
+        emailService.sendEmailToClientNewCliente(usuario.getEmail(), "Ativação de usuário",
+                usuario.toString() + bodyEmail);
+    }
+
+    @KafkaListener(topics = "${app.kafka.topic.emails-review}", groupId = "grupo-usuarios")
+    public void criarEmailDeConsumoParaUsuario(ContatoModel contatoModel) {
+        contatoRepository.save(contatoModel);
+
+    }
+
+    @KafkaListener(topics = "${app.kafka.topic.email-review-portifolio}", groupId = "grupo-usuarios")
+    public void criarEmailDeConsumoParaReviewPortifolio(ContatoModel contatoModel) {
+        contatoRepository.save(contatoModel);
     }
 
 }
