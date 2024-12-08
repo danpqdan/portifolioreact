@@ -39,7 +39,6 @@ public class SecurityConfig {
                     var corsConfiguration = new CorsConfiguration();
                     corsConfiguration.addAllowedOriginPattern(secretProd);
                     corsConfiguration.addAllowedOriginPattern(secretDev);
-                    corsConfiguration.addAllowedOriginPattern(kafkaRoute);
                     corsConfiguration.addAllowedHeader("*");
                     corsConfiguration.addAllowedMethod("*");
                     corsConfiguration.setAllowCredentials(true);
@@ -49,17 +48,15 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/api/kafka/send").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/kafka/messages").permitAll()
-
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/singup/usuario").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/auth/singup/**").permitAll()
+                        .requestMatchers("/auth/singup/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/comercio/criar").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/comercio/**").hasRole("DONO")
 
-                        .requestMatchers(HttpMethod.POST, "/servicos").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/servicos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/servicos").hasRole("DONO")
+                        .requestMatchers(HttpMethod.POST, "/servicos/**").hasRole("DONO")
                         .requestMatchers(HttpMethod.GET, "/servicos/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/like").permitAll()

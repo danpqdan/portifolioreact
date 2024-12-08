@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
@@ -24,22 +25,24 @@ import io.jsonwebtoken.security.SignatureException;
 public class TokenService {
 
     @Value("${api.security.token.secret}")
-    private String secret;
+    private String secretApi;
 
     private SecretKey secretKey;
 
     public TokenService() {
         this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
-    
 
     public String generatedToken(Usuario user) {
         try {
+            String roles = user.getRole().stream()
+                    .map(Enum::name)
+                    .collect(Collectors.joining(","));
             String token = Jwts.builder()
-                    .setIssuer("apiecomerce")
+                    .setIssuer(secretApi)
                     .setSubject(user.getUsername())
                     .setExpiration(genExpirationDate())
-                    .claim("role", user.getRole().getRole())
+                    .claim("role", roles)
                     .signWith(secretKey)
                     .compact();
             return token;
@@ -52,7 +55,7 @@ public class TokenService {
         try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
-                    .requireIssuer("apiecomerce")
+                    .requireIssuer(secretApi)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
@@ -86,23 +89,19 @@ public class TokenService {
     public String extrairUsuario(String token) {
         try {
             Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(secretKey) // Define a chave para validação
+                    .setSigningKey(secretKey)
                     .build()
-                    .parseClaimsJws(token) // Decodifica o token
-                    .getBody(); // Obtém o corpo (claims) do token
+                    .parseClaimsJws(token)
+                    .getBody();
 
-            return claims.getSubject(); // Retorna o usuário (subject) do token
+            return claims.getSubject();
         } catch (ExpiredJwtException e) {
-            // Token expirado
             throw new RuntimeException("Token expirado: " + e.getMessage(), e);
         } catch (SignatureException e) {
-            // Assinatura inválida
             throw new RuntimeException("Assinatura inválida: " + e.getMessage(), e);
         } catch (IllegalArgumentException e) {
-            // Token malformado
             throw new RuntimeException("Token malformado: " + e.getMessage(), e);
         } catch (Exception e) {
-            // Outros erros
             throw new RuntimeException("Erro ao extrair usuário do token: " + e.getMessage(), e);
         }
     }

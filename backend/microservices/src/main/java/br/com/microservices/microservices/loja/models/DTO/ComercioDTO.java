@@ -1,4 +1,4 @@
-package br.com.microservices.microservices.loja.models;
+package br.com.microservices.microservices.loja.models.DTO;
 
 import java.sql.Time;
 import java.util.Date;

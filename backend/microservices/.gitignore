@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 
 *-dev.properties
+*-test.properties
 
 ### STS ###
 .apt_generated

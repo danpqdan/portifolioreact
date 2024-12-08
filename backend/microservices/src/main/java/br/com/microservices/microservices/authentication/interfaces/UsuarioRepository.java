@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import br.com.microservices.microservices.authentication.model.Usuario;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
+public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
     UserDetails findByUsername(String username);
 

@@ -1,8 +1,9 @@
 package br.com.microservices.microservices.loja.models;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +35,9 @@ public class Comercio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "dono_da_loja_id", nullable = false)
     Usuario donoDaLoja;
 
     @Column(unique = true)
@@ -40,16 +46,17 @@ public class Comercio {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "comercio", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Disponibilidade> disponibilidades;
+    private List<DiaEHorarioDeFuncionamento> disponibilidades;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "comercios")
-    private List<Servico> servicos = new ArrayList<>();
+    private List<Servico> servicosDaLoja = new ArrayList<>();
 
-    public List<Disponibilidade> getDisponibilidades(LocalDate data) {
+    public Set<DiaEHorarioDeFuncionamento> getDisponibilidades(YearMonth mes) {
         return disponibilidades.stream()
-                .filter(disponibilidade -> disponibilidade.getData().equals(data))
-                .collect(Collectors.toList());
+                .filter(disponibilidade -> disponibilidade.getDiasDeFuncionamento().stream()
+                        .anyMatch(dia -> YearMonth.from(dia).equals(mes)))
+                .collect(Collectors.toSet());
     }
 
 }

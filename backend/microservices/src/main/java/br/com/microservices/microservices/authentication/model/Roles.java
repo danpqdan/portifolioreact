@@ -1,8 +1,10 @@
 package br.com.microservices.microservices.authentication.model;
 
 public enum Roles {
-        ADMIN("role_admin"),
-        USER("role_user");
+
+        DONO("ROLE_dono"),
+        FUNCIONARIO("ROLE_funcionario"),
+        USUARIO("ROLE_usuario");
 
         private String role;
 

@@ -1,7 +1,10 @@
 package br.com.microservices.microservices.loja.services;
 
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,9 +18,9 @@ import br.com.microservices.microservices.authentication.model.Usuario;
 import br.com.microservices.microservices.loja.interfaces.CalendarioRepository;
 import br.com.microservices.microservices.loja.interfaces.ComercioRepository;
 import br.com.microservices.microservices.loja.models.Comercio;
-import br.com.microservices.microservices.loja.models.ComercioDTO;
-import br.com.microservices.microservices.loja.models.Disponibilidade;
-import br.com.microservices.microservices.loja.models.FuncionamentoDTO;
+import br.com.microservices.microservices.loja.models.DiaEHorarioDeFuncionamento;
+import br.com.microservices.microservices.loja.models.DTO.ComercioDTO;
+import br.com.microservices.microservices.loja.models.DTO.FuncionamentoDTO;
 import br.com.microservices.microservices.servico.interfaces.ServicoRepository;
 import br.com.microservices.microservices.servico.models.Servico;
 import jakarta.transaction.Transactional;
@@ -50,7 +53,7 @@ public class ComercioServices {
             usuario.setComercio(comercio);
             usuarioRepository.saveAndFlush(usuario);
             if (saved.getId() != null) {
-                usuario.setRole(Roles.ADMIN);
+                usuario.setRole(Set.of(Roles.DONO));
             }
             return comercio;
         } catch (IllegalArgumentException e) {
@@ -60,18 +63,21 @@ public class ComercioServices {
 
     @Transactional
     public Comercio criarHorarioDeFuncionamento(FuncionamentoDTO funcionamentoDTO) {
-        Optional<Comercio> comercioOpt = comercioRepository.findByNomeLoja(funcionamentoDTO.nomeLoja());
+        Optional<Comercio> comercioOpt = comercioRepository.findByNomeLoja(funcionamentoDTO.getNomeLoja());
         if (!comercioOpt.isPresent()) {
-            throw new UsernameNotFoundException("Nao foi encontrado: " + funcionamentoDTO.nomeLoja());
+            throw new UsernameNotFoundException("Nao foi encontrado: " + funcionamentoDTO.getNomeLoja());
         }
         var comercio = comercioOpt.get();
-        Disponibilidade disponibilidade = new Disponibilidade();
-        disponibilidade.setData(funcionamentoDTO.data());
-        disponibilidade.setHorarioAbertura(funcionamentoDTO.horarioDeAbertura());
-        disponibilidade.setHorarioFechamento(funcionamentoDTO.horarioDeFechamento());
+        DiaEHorarioDeFuncionamento disponibilidade = new DiaEHorarioDeFuncionamento();
+        Year anoAtual = Year.of(LocalDate.now().getYear()); // Obtendo o ano atual como Year
+        disponibilidade.diasDeFuncionamento(funcionamentoDTO.getDiasDeFolga(), anoAtual);
+        disponibilidade.setHorarioAbertura(funcionamentoDTO.getHorarioDeAbertura().toLocalTime());
+        disponibilidade.setHorarioFechamento(funcionamentoDTO.getHorarioDeFechamento().toLocalTime());
         disponibilidade.setComercio(comercio);
+        disponibilidade.setHorarioTotalDeFuncionamento(funcionamentoDTO.getHorarioDeAbertura().toLocalTime(),
+                funcionamentoDTO.getHorarioDeFechamento().toLocalTime());
         calendarioRepository.save(disponibilidade);
-        comercio.setDisponibilidades(List.of(disponibilidade));
+        comercio.getDisponibilidades().add(disponibilidade);
         comercioRepository.save(comercio);
         return comercio;
     }

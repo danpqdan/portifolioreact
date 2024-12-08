@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationDTO {
+public class UsuarioDTO {
     @NotNull(message = "Email não pode ser nulo.")
     @NotEmpty(message = "Email não pode ser vazio.")
     @Email(message = "Email inválido.")

@@ -57,4 +57,24 @@ public class ContatoModel {
         this.body = body;
     }
 
+    public String generateHtmlEmail(String token, String email) {
+        this.body = "<!DOCTYPE html>" +
+                "<html>" +
+                "<head><title>Confirmação de Conta</title></head>" +
+                "<body>" +
+                "<h1>Bem-vindo!</h1>" +
+                "<p>Obrigado por se cadastrar.</p>" +
+                "<p>Seu token de confirmação é:</p>" +
+                "<p><strong>" + token + "</strong></p>" +
+                "<p>Use o token para validar seu cadastro ou <a href='http://localhost:8080/auth/singup/" + token
+                + "'>clique aqui</a>.</p>"
+                + "'>clique aqui</a>.</p>" +
+                "<p>Login: " + email + "</p>" +
+                "<p>Atenciosamente,<br>Equipe de softwareDev</p>" +
+                "</body>" +
+                "</html>";
+
+        return this.body;
+    }
+
 }

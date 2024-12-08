@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.microservices.microservices.loja.models.ServicosPorComercio;
+import br.com.microservices.microservices.loja.models.DTO.ServicosPorComercioDTO;
 import br.com.microservices.microservices.loja.services.ComercioServices;
 import br.com.microservices.microservices.servico.models.Servico;
 import br.com.microservices.microservices.servico.services.ServicoServices;
@@ -47,7 +47,7 @@ public class ServicoController {
     }
 
     @PostMapping
-    public ResponseEntity<Servico> criarProduto(@RequestBody ServicosPorComercio servico,
+    public ResponseEntity<Servico> criarProduto(@RequestBody ServicosPorComercioDTO servico,
             @RequestHeader("authorization") String token) {
 
         var produto = services.salvarServico(servico);
@@ -57,7 +57,7 @@ public class ServicoController {
 
     @DeleteMapping("/loja/{nomeComercio}")
     public ResponseEntity deletarProduto(@PathVariable String nomeComercio,
-            @RequestBody ServicosPorComercio comercio) {
+            @RequestBody ServicosPorComercioDTO comercio) {
         try {
             services.deletarProdutoPorLoja(nomeComercio, comercio);
             return ResponseEntity.ok().build();

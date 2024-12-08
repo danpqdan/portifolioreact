@@ -10,4 +10,10 @@ public class AppApplication {
 		SpringApplication.run(AppApplication.class, args);
 	}
 
+	/*
+	 * Necessario verificar o mapeamento do Horario Loja => serviço 
+	 * Necessario implementar a inserção de atendimentoAgendado;
+	 * Necessario implementar a att acima com um Cliente "USUARIO"
+	 */
+
 }

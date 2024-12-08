@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import br.com.microservices.microservices.authentication.model.AuthenticationDTO;
+import br.com.microservices.microservices.authentication.model.Usuario;
+import br.com.microservices.microservices.authentication.model.UsuarioDTO;
 import br.com.microservices.microservices.authentication.services.CustomUserDetailsService;
 import br.com.microservices.microservices.authentication.services.TokenService;
-import br.com.microservices.microservices.kafka.service.UsuarioProducerService;
 import br.com.microservices.microservices.sendemail.services.EmailService;
 import br.com.microservices.microservices.servico.exceptions.ErrorDTO;
 import br.com.microservices.microservices.servico.exceptions.SuccessResponseException;
@@ -36,17 +36,15 @@ public class AuthenticationController {
     TokenService tokenService;
     @Autowired
     EmailService emailService;
-    @Autowired
-    UsuarioProducerService usuarioProducerService;
 
     @PostMapping("/singin")
-    public ResponseEntity<?> login(@RequestBody AuthenticationDTO data) {
+    public ResponseEntity<?> login(@RequestBody UsuarioDTO data) {
         var token = userDetailsService.loginDeUsuario(data);
         return ResponseEntity.ok().body(token);
     }
 
     @PostMapping("/singup/usuario")
-    public ResponseEntity<?> register(@Valid @RequestBody AuthenticationDTO data, BindingResult bindingResult)
+    public ResponseEntity<?> register(@Valid @RequestBody UsuarioDTO data, BindingResult bindingResult)
             throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             List<String> errorMessages = bindingResult.getAllErrors().stream()
@@ -62,7 +60,9 @@ public class AuthenticationController {
 
             return ResponseEntity.badRequest().body(errorResponse);
         } else {
-            userDetailsService.novoUsuario(data);
+            Usuario usuario = userDetailsService.novoUsuario(data);
+            String token = tokenService.generatedToken(usuario);
+            emailService.sendEmailToClientNewCliente(token, usuario.getEmail());
             throw new SuccessResponseException(
                     HttpStatus.CREATED.value(),
                     "Usuário criado e e-mail enviado com sucesso.",

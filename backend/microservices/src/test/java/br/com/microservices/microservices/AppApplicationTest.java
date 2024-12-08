@@ -11,4 +11,5 @@ public class AppApplicationTest {
 		// Teste de integração básico que verifica se o contexto do Spring carrega sem
 		// erros
 	}
+
 }
