@@ -53,11 +53,14 @@ public class SecurityConfig {
                         .requestMatchers("/auth/singup/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/comercio/criar").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/comercio/**").hasRole("DONO")
+                        .requestMatchers(HttpMethod.POST, "/comercio/*/horarios").hasRole("DONO")
+                        .requestMatchers(HttpMethod.PATCH, "/comercio/*/horarios").hasRole("DONO")
+                        .requestMatchers(HttpMethod.POST, "/comercio/*/criarServico").hasRole("DONO")
+                        .requestMatchers(HttpMethod.DELETE, "/comercio/*/deletarServico").hasRole("DONO")
+                        .requestMatchers(HttpMethod.GET, "/comercio/*/horarios").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/servicos").hasRole("DONO")
-                        .requestMatchers(HttpMethod.POST, "/servicos/**").hasRole("DONO")
-                        .requestMatchers(HttpMethod.GET, "/servicos/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/comercio/*/servicos").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/comercio/*/servicos/agendamento").hasRole("USUARIO")
 
                         .requestMatchers(HttpMethod.POST, "/api/like").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/like").permitAll()
