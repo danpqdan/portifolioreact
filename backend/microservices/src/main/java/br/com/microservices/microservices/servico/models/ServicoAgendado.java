@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.microservices.microservices.authentication.model.Usuario;
 import br.com.microservices.microservices.loja.models.Disponibilidade;
@@ -46,7 +45,7 @@ public class ServicoAgendado {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "disponibilidade_id")
-    @JsonManagedReference
+    @JsonBackReference
     Disponibilidade disponibilidade;
 
     LocalDate diaDoSerivoco;

@@ -3,7 +3,6 @@ package br.com.microservices.microservices.loja.models;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -51,7 +50,7 @@ public class Calendario {
                 diasAtualizados.add(dia);
             }
         }
-        diasAtualizados.removeAll(diasDeFolgaExcpetion);
+        diasAtualizados.addAll(diasDeFolgaExcpetion);
 
         return diasAtualizados;
     }

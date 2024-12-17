@@ -1,8 +1,11 @@
 package br.com.microservices.microservices.loja.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +22,7 @@ import br.com.microservices.microservices.loja.models.Disponibilidade;
 import br.com.microservices.microservices.loja.models.DTO.BuscaDisponibilidadeDTO;
 import br.com.microservices.microservices.loja.models.DTO.ComercioDTO;
 import br.com.microservices.microservices.loja.models.DTO.FuncionamentoDTO;
+import br.com.microservices.microservices.loja.models.DTO.HorarioDisponibilidadeDTO;
 import br.com.microservices.microservices.servico.interfaces.ServicoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -70,8 +74,8 @@ public class ComercioServices {
         calendario.setDiasDeFolga(funcionamentoDTO.getDiasFechado());
         var newCalendar = calendario.atualizarDiasIndisponiveis(funcionamentoDTO.getDiasFechado(),
                 funcionamentoDTO.getDiaDeFolga());
-        Disponibilidade disponibilidade = new Disponibilidade();
         if (comercio.getDisponibilidades() == null) {
+            Disponibilidade disponibilidade = new Disponibilidade();
             disponibilidade.setHorarioAbertura(funcionamentoDTO.getHorarioDeAbertura().toLocalTime());
             disponibilidade.setHorarioFechamento(funcionamentoDTO.getHorarioDeFechamento().toLocalTime());
             disponibilidade.setCalendarioDeFuncionamento(newCalendar);
@@ -81,11 +85,11 @@ public class ComercioServices {
             disponibilidadeRepository.save(disponibilidade);
             return comercio;
         } else {
-
+            var disponibilidade = comercioOpt.get().getDisponibilidades();
             disponibilidade.setHorarioAbertura(funcionamentoDTO.getHorarioDeAbertura().toLocalTime());
             disponibilidade.setHorarioFechamento(funcionamentoDTO.getHorarioDeFechamento().toLocalTime());
             disponibilidade.setCalendarioDeFuncionamento(newCalendar);
-            disponibilidadeRepository.saveAndFlush(disponibilidade);
+            disponibilidade.setComercio(comercio);
             comercio.setDisponibilidades(disponibilidade);
             comercioRepository.save(comercio);
             return comercio;
@@ -103,18 +107,4 @@ public class ComercioServices {
 
         return comercio;
     }
-
-    public Comercio retornarDisponibilidades(String nomeDoComercio, BuscaDisponibilidadeDTO buscaDisponibilidadeDTO) {
-        Disponibilidade disponibilidade = disponibilidadeRepository.findByComercio_NomeLoja(nomeDoComercio);
-        if (disponibilidade == null) {
-            throw new IllegalArgumentException("Disponibilidade não encontrada para o comércio: " + nomeDoComercio);
-        }
-        LocalDate dataBusca = buscaDisponibilidadeDTO.toLocalDate();
-        boolean disponivel = disponibilidade.verificarDiaDisponivel(dataBusca);
-        if (!disponivel) {
-            throw new IllegalArgumentException("A data " + dataBusca + " não está disponível para o comércio.");
-        }
-        return disponibilidade.getComercio();
-    }
-
 }

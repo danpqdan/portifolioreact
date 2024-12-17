@@ -1,11 +1,16 @@
 package br.com.microservices.microservices.loja.models.DTO;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class BuscaDisponibilidadeDTO {
         @NotNull
         @Min(1)
@@ -28,4 +33,7 @@ public class BuscaDisponibilidadeDTO {
                         throw new IllegalArgumentException("Data inválida: " + e.getMessage());
                 }
         }
+
+        
+
 }

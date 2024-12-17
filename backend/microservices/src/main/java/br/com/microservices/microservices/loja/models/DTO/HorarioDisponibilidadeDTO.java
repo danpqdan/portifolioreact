@@ -1,5 +1,6 @@
 package br.com.microservices.microservices.loja.models.DTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Embeddable;
