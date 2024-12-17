@@ -36,6 +36,7 @@ public class Servico {
     @ManyToOne
     private Comercio comercios;
 
+
     public Servico(String nomeServico, Double valorServico, Long tempoServico) {
         this.nomeServico = nomeServico;
         this.valorServico = valorServico;
@@ -49,9 +50,5 @@ public class Servico {
         this.descricao = descricao;
     }
 
-    // public void setTempoServico(Long tempo) {
-    // LocalTime tempoServicoLocalTime = LocalTime.MIN.plusMinutes(tempo);
-    // this.tempoServico = tempoServicoLocalTime;
-    // }
 
 }

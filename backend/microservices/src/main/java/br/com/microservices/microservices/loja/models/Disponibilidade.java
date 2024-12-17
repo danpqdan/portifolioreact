@@ -59,6 +59,14 @@ public class Disponibilidade {
         this.calendarioDeNaoFuncionamento = calendarioDeFuncionamento;
     }
 
+    public Set<LocalDateTime> getHorariosAgendados() {
+        // Combinar todos os horários de início e fim em uma lista única
+        Set<LocalDateTime> todosHorarios = new HashSet<>();
+        todosHorarios.addAll(horarioAgendadoInicio); // Adiciona horários de início
+        todosHorarios.addAll(horarioAgendadoFim);
+        return todosHorarios;
+    }
+
     public boolean verificarDiaDisponivel(LocalDate data) {
         return !calendarioDeNaoFuncionamento.contains(data);
     }
