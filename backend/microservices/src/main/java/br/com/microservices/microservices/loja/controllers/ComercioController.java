@@ -56,7 +56,7 @@ public class ComercioController {
     @PostMapping("/{nomeDoComercio}/horarios")
     public ResponseEntity<?> adicionarHorariosDeFuncionamento(
             @PathVariable("nomeDoComercio") String nomeComercio,
-            @RequestHeader("Authorization") String token,
+            @RequestHeader("authorization") String token,
             @Valid @RequestBody FuncionamentoDTO funcionamentoDTO,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -108,11 +108,11 @@ public class ComercioController {
         }
     }
 
-    @GetMapping("/{nomeDoComercio}/horarios")
-    public ResponseEntity<?> adicionarHorariosDeFuncionamento(@PathVariable("nomeDoComercio") String nomeComercio,
-            @RequestBody BuscaDisponibilidadeDTO buscaDisponibilidadeDTO) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(comercioServices.retornarDisponibilidades(nomeComercio, buscaDisponibilidadeDTO));
-    }
+    // @GetMapping("/{nomeDoComercio}/horarios")
+    // public ResponseEntity<?> adicionarHorariosDeFuncionamento(@PathVariable("nomeDoComercio") String nomeComercio,
+    //         @RequestBody BuscaDisponibilidadeDTO buscaDisponibilidadeDTO) {
+    //     return ResponseEntity.status(HttpStatus.OK)
+    //             .body(comercioServices.retornarDisponibilidades(nomeComercio, buscaDisponibilidadeDTO));
+    // }
 
 }
