@@ -52,7 +52,7 @@ public class Disponibilidade {
     private Set<LocalTime> horariosDisponiveisNoDia = new HashSet<>();
 
     @ElementCollection
-    @CollectionTable(name = "dias_de_funcionamento", joinColumns = @JoinColumn(name = "disponibilidade_id"))
+    @CollectionTable(name = "dias_indisponiveis", joinColumns = @JoinColumn(name = "disponibilidade_id"))
     @Column(name = "diaDeFuncionamento")
     private Set<LocalDate> calendarioDeNaoFuncionamento = new HashSet<>();
 
@@ -72,16 +72,14 @@ public class Disponibilidade {
         LocalTime inicio = servico.getHoraDoInicio();
         LocalTime fim = servico.getHoraDoFinal();
         LocalDate dia = servico.getDiaDoSerivoco();
-        if (!calendarioDeNaoFuncionamento.contains(dia)) {
-            throw new IllegalArgumentException("Dia fora do calendário de funcionamento.");
-        }
+        verificarDiaDisponivel(dia);
         boolean conflito = servicosNaAgenda.stream()
-                .filter(s -> s.getDiaDoSerivoco().equals(servico.getDiaDoSerivoco()))
+                .filter(s -> s.getDiaDoSerivoco().equals(dia))
                 .anyMatch(s -> {
                     LocalTime inicioExistente = s.getHoraDoInicio();
                     LocalTime fimExistente = s.getHoraDoFinal();
 
-                    return (inicio.isBefore(inicioExistente) && fim.isAfter(fimExistente));
+                    return (inicio.isBefore(fimExistente) && fim.isAfter(inicioExistente));
                 });
 
         if (conflito) {

@@ -38,17 +38,20 @@ public class ServicoServices {
             Disponibilidade disponibilidade = comercioOpt.get().getDisponibilidades();
             Servico servico = servicoOpt.get();
             ServicoAgendado agendado = new ServicoAgendado();
-            agendado.setUsuario(usuarioOpt);
-            agendado.setComercios(comercioOpt.get());
-            agendado.setServico(servico);
-            agendado.setDisponibilidade(disponibilidade);
-            agendado.setDiaDoSerivoco(servicosDTO.getAgendamentoDTO().toLocalDate());
-            agendado.setHoraDoInicio(servicosDTO.getAgendamentoDTO().toLocalTime());
-            agendado.setHoraDoFinal(
-                    servicosDTO.getAgendamentoDTO().toLocalTime().plusMinutes(servico.getTempoServico()));
-            disponibilidade.setServicoNaAgenda(agendado);
+            if (disponibilidade.verificarDiaDisponivel(servicosDTO.getAgendamentoDTO().toLocalDate())) {
 
-            return servico;
+                agendado.setUsuario(usuarioOpt);
+                agendado.setComercios(comercioOpt.get());
+                agendado.setServico(servico);
+                agendado.setDisponibilidade(disponibilidade);
+                agendado.setDiaDoSerivoco(servicosDTO.getAgendamentoDTO().toLocalDate());
+                agendado.setHoraDoInicio(servicosDTO.getAgendamentoDTO().toLocalTime());
+                agendado.setHoraDoFinal(
+                        servicosDTO.getAgendamentoDTO().toLocalTime().plusMinutes(servico.getTempoServico()));
+                disponibilidade.setServicoNaAgenda(agendado);
+                return servico;
+            }
+            throw new IllegalArgumentException("Solicitação indisponivel verifique a data.");
         }
         return null;
     }
