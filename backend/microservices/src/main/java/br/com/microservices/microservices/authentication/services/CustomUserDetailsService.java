@@ -94,9 +94,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public Usuario validarUsuario(UsuarioDTO login, String token) {
         try {
-            if (token != null && token.startsWith("Bearer ")) {
-                token = token.substring(7); // Remove "Bearer " (7 caracteres)
-            }
+
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             var usuarioToken = tokenService.extrairUsuario(token);
             var usuarioOptional = usuarioRepository.findById(login.getEmail());

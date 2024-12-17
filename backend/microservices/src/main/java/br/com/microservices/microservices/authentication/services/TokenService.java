@@ -87,6 +87,9 @@ public class TokenService {
 
     // Extrair o username (subject) do token
     public String extrairUsuario(String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)

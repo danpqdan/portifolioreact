@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.microservices.microservices.loja.models.DTO.ServicosPorComercioDTO;
+import br.com.microservices.microservices.authentication.services.TokenService;
 import br.com.microservices.microservices.loja.services.ComercioServices;
 import br.com.microservices.microservices.servico.models.Servico;
+import br.com.microservices.microservices.servico.models.ServicoClienteDTO;
+import br.com.microservices.microservices.servico.models.ServicoDTO;
 import br.com.microservices.microservices.servico.services.ServicoServices;
 
-@RequestMapping("/servicos")
+@RequestMapping("/comercio")
 @RestController
 public class ServicoController {
 
@@ -29,35 +31,52 @@ public class ServicoController {
     ServicoServices services;
     @Autowired
     ComercioServices comercioServices;
+    @Autowired
+    TokenService tokenService;
 
-    @GetMapping("/loja/{nomeComercio}")
+    @GetMapping("/{nomeDaLoja}/servicos")
     public ResponseEntity<Page<Servico>> listarServicos(
-            @PathVariable String nomeComercio,
+            @PathVariable String nomeDaLoja,
             @PageableDefault(sort = "valorServico", direction = Sort.Direction.ASC) Pageable pageable) {
-        if (nomeComercio.isEmpty()) {
+        if (nomeDaLoja.isEmpty()) {
             Page<Servico> itens = services.listarServicoAsc(pageable);
             return ResponseEntity.status(HttpStatus.OK).body(itens);
         }
-        if (nomeComercio.length() > 0) {
-            var produtosListados = comercioServices.listarProdutosPorLoja(nomeComercio, pageable);
+        if (nomeDaLoja.length() > 0) {
+            var produtosListados = services.listarProdutosPorLoja(nomeDaLoja, pageable);
             return ResponseEntity.status(HttpStatus.OK).body(produtosListados);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping
-    public ResponseEntity<Servico> criarProduto(@RequestBody ServicosPorComercioDTO servico,
+    @PostMapping("/{nomeDaLoja}/servicos/agendamento")
+    public ResponseEntity<Servico> registrarNovoSevico(
+            @PathVariable String nomeDaLoja,
+            @RequestBody ServicoClienteDTO servico,
             @RequestHeader("authorization") String token) {
+        if (nomeDaLoja.length() > 0 && nomeDaLoja.equals(servico.getNomeDaLoja())) {
+            var usuario = tokenService.extrairUsuario(token);
+            var servicoAdicionado = services.registrarServicoComUsuario(servico);
+            return ResponseEntity.status(HttpStatus.OK).body(servicoAdicionado);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-        var produto = services.salvarServico(servico);
+    @PostMapping("/{nomeDaLoja}/criarServico")
+    public ResponseEntity<Servico> criarProduto(
+            @RequestBody ServicoDTO servico,
+            @RequestHeader("authorization") String token) {
+        var usuario = tokenService.extrairUsuario(token);
+        var produto = services.salvarServico(servico, usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(produto);
 
     }
 
-    @DeleteMapping("/loja/{nomeComercio}")
+    @DeleteMapping("/{nomeDaLoja}/deletarServico")
     public ResponseEntity deletarProduto(@PathVariable String nomeComercio,
-            @RequestBody ServicosPorComercioDTO comercio) {
+            @RequestBody ServicoDTO comercio) {
         try {
             services.deletarProdutoPorLoja(nomeComercio, comercio);
             return ResponseEntity.ok().build();

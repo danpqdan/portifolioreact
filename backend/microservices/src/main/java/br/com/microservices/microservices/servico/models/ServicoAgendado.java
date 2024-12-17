@@ -1,7 +1,11 @@
 package br.com.microservices.microservices.servico.models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import br.com.microservices.microservices.authentication.model.Usuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,8 +24,15 @@ import lombok.Setter;
 public class ServicoAgendado extends Servico {
     @ManyToOne
     @JoinColumn(name = "servico_id")
+    @JsonBackReference
     private Servico servico;
 
-    LocalDateTime diaHoraDoAgendamentoInicio;
-    LocalDateTime diaHoraDoAgendamentoFinal;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    @JsonBackReference
+    private Usuario usuario;
+
+    LocalDate diaDoSerivoco;
+    LocalTime horaDoInicio;
+    LocalTime horaDoFinal;
 }
