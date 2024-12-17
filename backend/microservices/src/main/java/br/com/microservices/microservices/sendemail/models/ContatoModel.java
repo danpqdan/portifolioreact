@@ -25,10 +25,6 @@ public class ContatoModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     int numeroDoContato;
     private String remetente;
-
-    @NotNull(message = "O destinatário não pode ser nulo.")
-    @NotEmpty(message = "O destinatário não pode ser vazio.")
-    @Email(message = "O destinatário deve ser um e-mail válido.")
     private String destinatario;
 
     @NotNull(message = "O corpo da mensagem não pode ser nulo.")
@@ -71,6 +67,23 @@ public class ContatoModel {
                 + "'>clique aqui</a>.</p>" +
                 "<p>Login: " + email + "</p>" +
                 "<p>Atenciosamente,<br>Equipe de softwareDev</p>" +
+                "</body>" +
+                "</html>";
+
+        return this.body;
+    }
+
+    public String generateHtmlForReview(String tittle, int review, String body) {
+        this.body = "<!DOCTYPE html>" +
+                "<html>" +
+                "<head><title>" + tittle + "</title></head>" +
+                "<body style='font-family: Arial, sans-serif;border: 1px solid black; border-radius:12px ; background-color:rgb(117, 119, 121); color: #333; text-align: center;'>"
+                +
+                "<h1 style='color:rgb(0, 0, 0);'>Obrigado por avaliar!</h1>" +
+                "<h3 style='font-size: 18px;'>Esse foi o conteúdo descrito:</h3>" +
+                "<p style='font-size: 16px; line-height: 1.5;'>" + body + "</p>" +
+                "<p style='font-weight: bold; color: #28a745;'>Nota: " + review
+                + " de 5 (máximo). Obrigado por avaliar, estarei melhorando sempre!</p>" +
                 "</body>" +
                 "</html>";
 

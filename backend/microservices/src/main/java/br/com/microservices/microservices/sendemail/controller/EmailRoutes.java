@@ -22,7 +22,6 @@ import br.com.microservices.microservices.sendemail.models.ContatoModel;
 import br.com.microservices.microservices.sendemail.models.LikeModel;
 import br.com.microservices.microservices.sendemail.services.EmailService;
 import br.com.microservices.microservices.servico.exceptions.ErrorDTO;
-import br.com.microservices.microservices.servico.exceptions.SuccessResponseException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -47,38 +46,27 @@ public class EmailRoutes {
         return count;
     }
 
-    // @PostMapping("/review")
-    // public ResponseEntity<?> postComentarioPortifolio(@Valid @RequestBody ContatoModel contato,
-    //         BindingResult bindingResult) throws JsonProcessingException {
-    //     if (bindingResult.hasErrors()) {
-    //         List<String> errorMessages = bindingResult.getAllErrors().stream()
-    //                 .map(error -> error.getDefaultMessage())
-    //                 .collect(Collectors.toList());
+    @PostMapping("/review")
+    public ResponseEntity<?> postComentarioPortifolio(@Valid @RequestBody ContatoModel contato,
+            BindingResult bindingResult) throws JsonProcessingException {
+        if (bindingResult.hasErrors()) {
+            List<String> errorMessages = bindingResult.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.toList());
 
-    //         ErrorDTO errorResponse = new ErrorDTO(
-    //                 LocalDateTime.now(),
-    //                 HttpStatus.BAD_REQUEST.value(),
-    //                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
-    //                 String.join(", ", errorMessages),
-    //                 "/api/review");
+            ErrorDTO errorResponse = new ErrorDTO(
+                    LocalDateTime.now(),
+                    HttpStatus.BAD_REQUEST.value(),
+                    HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                    String.join(", ", errorMessages),
+                    "/api/review");
 
-    //         return ResponseEntity.badRequest().body(errorResponse);
-    //     } else {
-    //         if (contato.getRemetente().isEmpty()) {
-    //             emailService.sendEmailToReview(contato);
-    //             throw new SuccessResponseException(
-    //                     HttpStatus.OK.value(),
-    //                     "Sua review foi enviado com sucesso.",
-    //                     contato.getTitulo());
-    //         }
-    //         emailService.sendEmailToClient(contato);
-    //         contatoRepository.save(contato);
-    //         throw new SuccessResponseException(
-    //                 HttpStatus.OK.value(),
-    //                 "Sua review foi enviado com sucesso.",
-    //                 contato.getTitulo());
-    //     }
-    // }
+            return ResponseEntity.badRequest().body(errorResponse);
+        } else {
+            emailService.sendEmailToReview(contato);
+            return ResponseEntity.status(HttpStatus.OK).body("Email enviado com sucesso");
+        }
+    }
 
     @GetMapping("/contato")
     public ResponseEntity<List<ContatoModel>> getComment() {
