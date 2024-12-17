@@ -42,7 +42,6 @@ public class Servico {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "disponibilidade_id")
     private Disponibilidade disponibilidade;
 
     public Servico(String nomeServico, Double valorServico, Long tempoServico) {

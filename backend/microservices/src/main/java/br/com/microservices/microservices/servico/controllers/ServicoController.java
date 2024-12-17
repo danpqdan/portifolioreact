@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.microservices.microservices.authentication.services.TokenService;
 import br.com.microservices.microservices.loja.services.ComercioServices;
 import br.com.microservices.microservices.servico.models.Servico;
-import br.com.microservices.microservices.servico.models.ServicoClienteDTO;
-import br.com.microservices.microservices.servico.models.ServicoDTO;
+import br.com.microservices.microservices.servico.models.DTO.ServicoClienteDTO;
+import br.com.microservices.microservices.servico.models.DTO.ServicoDTO;
 import br.com.microservices.microservices.servico.services.ServicoServices;
 
 @RequestMapping("/comercio")

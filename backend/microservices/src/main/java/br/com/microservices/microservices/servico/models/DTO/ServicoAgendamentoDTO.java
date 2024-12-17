@@ -1,4 +1,4 @@
-package br.com.microservices.microservices.servico.models;
+package br.com.microservices.microservices.servico.models.DTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

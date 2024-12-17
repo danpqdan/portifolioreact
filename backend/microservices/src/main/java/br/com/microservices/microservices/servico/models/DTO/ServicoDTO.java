@@ -1,4 +1,4 @@
-package br.com.microservices.microservices.servico.models;
+package br.com.microservices.microservices.servico.models.DTO;
 
 public record ServicoDTO(
                 String nomeServico,

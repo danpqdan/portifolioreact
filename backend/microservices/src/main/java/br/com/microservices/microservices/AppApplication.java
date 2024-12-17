@@ -11,7 +11,7 @@ public class AppApplication {
 	}
 
 	/*
-	 * Necessario Implementar o incremento dos dias de funcionamento - folgas
+	 * 
 	 */
 
 }

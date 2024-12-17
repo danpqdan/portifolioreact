@@ -15,8 +15,8 @@ import br.com.microservices.microservices.loja.models.Disponibilidade;
 import br.com.microservices.microservices.servico.interfaces.ServicoRepository;
 import br.com.microservices.microservices.servico.models.Servico;
 import br.com.microservices.microservices.servico.models.ServicoAgendado;
-import br.com.microservices.microservices.servico.models.ServicoClienteDTO;
-import br.com.microservices.microservices.servico.models.ServicoDTO;
+import br.com.microservices.microservices.servico.models.DTO.ServicoClienteDTO;
+import br.com.microservices.microservices.servico.models.DTO.ServicoDTO;
 import jakarta.transaction.Transactional;
 
 @Service
