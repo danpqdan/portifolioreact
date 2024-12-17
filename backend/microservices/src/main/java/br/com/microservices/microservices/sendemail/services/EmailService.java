@@ -39,19 +39,19 @@ public class EmailService {
 
     public void sendEmailToReview(ContatoModel contato) {
         try {
+            var contatoModel = new ContatoModel();
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             if (contato.getReview() > 1 || contato.getReview() <= 5) {
-                if (contato.getRemetente().isEmpty()) {
-                    contato.setRemetente(emailService);
+                if (!contatoModel.validarEmail(contato.getRemetente())) {
                     contato.setRemetente(emailService);
                 }
-                helper.setFrom(contato.getRemetente());
-                helper.setTo(emailService);
+                helper.setTo(contato.getRemetente());
+                helper.setFrom(emailService);
                 helper.setSubject(contato.getTitulo());
-                var contatoModel = new ContatoModel().generateHtmlForReview(contato.getTitulo(), contato.getReview(),
+                var contatoModelBody = contatoModel.generateHtmlForReview(contato.getTitulo(), contato.getReview(),
                         contato.getBody());
-                helper.setText(contatoModel, true);
+                helper.setText(contatoModelBody, true);
                 javaMailSender.send(message);
             }
         } catch (MessagingException e) {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePostComentario } from '../../hook/useHookComentario';
+import { Comentario, usePostComentario } from '../../hook/useHookComentario';
 
 interface ModalProps {
     showModal: boolean;
@@ -9,35 +9,47 @@ interface ModalProps {
 
 // Componente Modal com tipagem de props
 export const Modal: React.FC<ModalProps> = ({ showModal, closeModal, postLike }) => {
-    const { postComentario } = usePostComentario();
-
-    const [review, setReview] = useState(0); // Agora o estado de avaliação é um número (0 a 5)
-    const [subject, setSubject] = useState('');
+    const [remetente, setRemetente] = useState('');
     const [body, setBody] = useState('');
+    const [titulo, setTitulo] = useState('');
+    const [review, setReview] = useState(0);
+    const { postComentario } = usePostComentario();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newComentario = {
-            subject,
+
+        if (!titulo || !body || review === 0) {
+            alert('Todos os campos devem ser preenchidos.');
+            return;
+        }
+
+        const newComentario: Comentario = {
+            remetente,
+            titulo,
             body,
-            review: review.toString(),
+            review,
         };
 
-        try {
-            const response = await postComentario(newComentario);  // Agora retorna a resposta da API
 
-            // Verifica se a resposta foi bem-sucedida (status OK)
+        try {
+            const response = await postComentario(newComentario);
+
             if (response.ok) {
-                setSubject('');
+                setRemetente('');
                 setBody('');
+                setTitulo('');
                 setReview(0);
                 closeModal();
                 postLike();
             } else {
-                console.error('Erro ao enviar o comentário');
+                const errorData = await response.json();
+                console.error('Erro ao enviar o comentário: ', errorData.message || errorData);
+                alert('Erro ao enviar o comentário, tente novamente mais tarde.');
+
             }
         } catch (error) {
-            console.error('Erro ao enviar o comentário:', error);
+            console.error('Erro na requisição da API:', error);
+            alert('Erro de comunicação com a API, tente novamente mais tarde.');
         }
     };
 
@@ -53,21 +65,32 @@ export const Modal: React.FC<ModalProps> = ({ showModal, closeModal, postLike })
             <div style={modalStyles}>
                 <button onClick={closeModal} style={closeButtonStyles}>X</button>
                 <h2 style={{ color: 'black', textAlign: 'center' }}>Adicione um comentario</h2>
+                <p style={{ color: 'black', textAlign: 'center' }}>Seus dados não serão salvos</p>
                 <p style={{ color: 'black', textAlign: 'center' }}>Melhoria ou FeedBack</p>
                 <form onSubmit={handleSubmit} style={formStyle}>
                     <div>
                         <input
                             style={inputStyle}
                             type="text"
-                            id="subject"
-                            value={subject}
-                            onChange={(e) => setSubject(e.target.value)}
+                            placeholder="Remetente (OPCIONAL)"
+                            value={remetente}
+                            onChange={(e) => setRemetente(e.target.value)}
+                        />
+                    </div>
+
+                    <div>
+                        <input
+                            style={inputStyle}
+                            type="text"
+                            id="tittle"
+                            value={titulo}
+                            onChange={(e) => setTitulo(e.target.value)}
                             placeholder="Titulo para o Review"
                             required
                         />
                     </div>
                     <div>
-                        <textarea
+                        <input
                             style={inputStyle}
                             id="body"
                             value={body}

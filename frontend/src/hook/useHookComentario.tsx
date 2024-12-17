@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
-interface Comentario {
-    subject: string;
+export interface Comentario {
+    remetente: string;
+    titulo: string;
     body: string;
-    review: string;
+    review: number;
 }
 
 export const useGetComentarios = () => {
@@ -13,7 +14,7 @@ export const useGetComentarios = () => {
     useEffect(() => {
         const fetchComentarios = async () => {
             try {
-                const res = await fetch('http://localhost:8080/api/contato');
+                const res = await fetch('http://localhost:8080/api/review');
                 if (!res.ok) {
                     throw new Error('Erro ao buscar os comentários');
                 }
@@ -30,17 +31,11 @@ export const useGetComentarios = () => {
     return { comentarios, loading };
 };
 
-interface Comentario {
-    subject: string;
-    body: string;
-    review: string;
-}
 
-// Exemplo do hook usePostComentario
 export const usePostComentario = () => {
-    const postComentario = async (comentario: { subject: string; body: string; review: string }) => {
+    const postComentario = async (comentario: Comentario): Promise<Response> => {
         try {
-            const response = await fetch('http://localhost:8080/api/contato', {
+            const response = await fetch('http://localhost:8080/api/review', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,12 +47,13 @@ export const usePostComentario = () => {
                 throw new Error('Erro ao enviar o comentário');
             }
 
-            return response;  // Retorna a resposta para verificação de status
+            return response; // Retorna a resposta para manipulação no componente
         } catch (error) {
             console.error('Erro no envio do comentário:', error);
-            throw error; // Repassa o erro para o handler no componente
+            throw error;
         }
     };
+
 
     return { postComentario };
 };
