@@ -1,5 +1,7 @@
 package br.com.microservices.microservices.servico.services;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,36 @@ public class ServicoServices {
     @Autowired
     ComercioRepository comercioRepository;
 
+    public ServicoAgendado setServicoNaAgenda(ServicoAgendado servico) {
+        LocalTime inicio = servico.getHoraDoInicio();
+        LocalTime fim = servico.getHoraDoFinal();
+        LocalDate dia = servico.getDiaDoSerivoco();
+        Disponibilidade disponibilidade = servico.getDisponibilidade();
+        disponibilidade.verificarDiaDisponivel(dia);
+        if (inicio.isAfter(fim) || inicio.equals(fim)) {
+            throw new IllegalArgumentException("O horário de início deve ser anterior ao horário de término.");
+        }
+        if (!disponibilidade.isDentroDoHorarioDisponivel(inicio, fim)) {
+            throw new IllegalArgumentException("Os horários estão fora da disponibilidade definida.");
+        }
+
+        boolean conflito = disponibilidade.getHorarioAgendadoInicio().stream()
+                .filter(horarioAgendado -> horarioAgendado.equals(dia))
+                .anyMatch(horarioAgendado -> {
+                    LocalTime inicioExistente = inicio;
+                    LocalTime fimExistente = fim;
+                    return (inicio.isBefore(fimExistente) && fim.isAfter(inicioExistente));
+                });
+
+        if (conflito) {
+            throw new IllegalArgumentException("Horário já ocupado por outro serviço.");
+        }
+        disponibilidade.setHorarioAgendado(servico.getDiaDoSerivoco().atTime(servico.getHoraDoInicio()),
+                servico.getDiaDoSerivoco().atTime(servico.getHoraDoFinal()));
+        return servico;
+
+    }
+
     @Transactional
     public Servico registrarServicoComUsuario(ServicoClienteDTO servicosDTO) {
         var servicoOpt = servicoRepository.findById(servicosDTO.getServicoId());
@@ -48,7 +80,7 @@ public class ServicoServices {
                 agendado.setHoraDoInicio(servicosDTO.getAgendamentoDTO().toLocalTime());
                 agendado.setHoraDoFinal(
                         servicosDTO.getAgendamentoDTO().toLocalTime().plusMinutes(servico.getTempoServico()));
-                disponibilidade.setServicoNaAgenda(agendado);
+                setServicoNaAgenda(agendado);
                 return servico;
             }
             throw new IllegalArgumentException("Solicitação indisponivel verifique a data.");

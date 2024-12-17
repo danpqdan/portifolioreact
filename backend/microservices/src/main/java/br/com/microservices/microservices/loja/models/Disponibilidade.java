@@ -1,17 +1,14 @@
 package br.com.microservices.microservices.loja.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import br.com.microservices.microservices.servico.models.ServicoAgendado;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -21,7 +18,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,17 +44,16 @@ public class Disponibilidade {
 
     @ElementCollection
     @CollectionTable(name = "horario_de_funcionamento", joinColumns = @JoinColumn(name = "disponibilidade_id"))
-    @Column(name = "horariosDisponiveisNoDia")
-    private Set<LocalTime> horariosDisponiveisNoDia = new HashSet<>();
+    private Set<LocalDateTime> horarioAgendadoInicio = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "horario_de_funcionamento", joinColumns = @JoinColumn(name = "disponibilidade_id"))
+    private Set<LocalDateTime> horarioAgendadoFim = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "dias_indisponiveis", joinColumns = @JoinColumn(name = "disponibilidade_id"))
-    @Column(name = "diaDeFuncionamento")
+    @Column(name = "diasIndisponiveis")
     private Set<LocalDate> calendarioDeNaoFuncionamento = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @CollectionTable(name = "servicos_agendados", joinColumns = @JoinColumn(name = "disponibilidade_id"))
-    private List<ServicoAgendado> servicosNaAgenda = new ArrayList<>();
 
     public void setCalendarioDeFuncionamento(Set<LocalDate> calendarioDeFuncionamento) {
         this.calendarioDeNaoFuncionamento = calendarioDeFuncionamento;
@@ -68,27 +63,18 @@ public class Disponibilidade {
         return !calendarioDeNaoFuncionamento.contains(data);
     }
 
-    public List<ServicoAgendado> setServicoNaAgenda(ServicoAgendado servico) {
-        LocalTime inicio = servico.getHoraDoInicio();
-        LocalTime fim = servico.getHoraDoFinal();
-        LocalDate dia = servico.getDiaDoSerivoco();
-        verificarDiaDisponivel(dia);
-        boolean conflito = servicosNaAgenda.stream()
-                .filter(s -> s.getDiaDoSerivoco().equals(dia))
-                .anyMatch(s -> {
-                    LocalTime inicioExistente = s.getHoraDoInicio();
-                    LocalTime fimExistente = s.getHoraDoFinal();
-
-                    return (inicio.isBefore(fimExistente) && fim.isAfter(inicioExistente));
-                });
-
-        if (conflito) {
-            throw new IllegalArgumentException("Horário já ocupado por outro serviço.");
+    public void setHorarioAgendado(LocalDateTime inicio, LocalDateTime fim) {
+        if (inicio.toLocalDate().isEqual(fim.toLocalDate()) && inicio.toLocalTime().isBefore(fim.toLocalTime())) {
+            this.horarioAgendadoInicio.add(inicio);
+            this.horarioAgendadoFim.add(fim);
         }
-        servicosNaAgenda.add((ServicoAgendado) servico);
-        horariosDisponiveisNoDia.removeIf(horario -> !horario.isBefore(inicio) && !horario.isAfter(fim));
-        return servicosNaAgenda;
+    }
 
+    public boolean isDentroDoHorarioDisponivel(LocalTime inicio, LocalTime fim) {
+        LocalTime horarioInicioDisponivel = this.horarioAbertura;
+        LocalTime horarioFimDisponivel = this.horarioFechamento;
+
+        return !inicio.isBefore(horarioInicioDisponivel) && !fim.isAfter(horarioFimDisponivel);
     }
 
 }

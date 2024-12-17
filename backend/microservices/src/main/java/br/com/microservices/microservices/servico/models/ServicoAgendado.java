@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.microservices.microservices.authentication.model.Usuario;
+import br.com.microservices.microservices.loja.models.Disponibilidade;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -32,7 +35,14 @@ public class ServicoAgendado extends Servico {
     @JsonBackReference
     private Usuario usuario;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "disponibilidade_id")
+    @JsonManagedReference
+    Disponibilidade disponibilidade;
+
     LocalDate diaDoSerivoco;
     LocalTime horaDoInicio;
     LocalTime horaDoFinal;
+
+    
 }
