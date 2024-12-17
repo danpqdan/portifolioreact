@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import br.com.microservices.microservices.loja.models.DTO.HorarioDisponibilidadeDTO;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -18,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,12 +45,7 @@ public class Disponibilidade {
     private LocalTime horarioFechamento;
 
     @ElementCollection
-    @CollectionTable(name = "horario_de_funcionamento", joinColumns = @JoinColumn(name = "disponibilidade_id"))
-    private Set<LocalDateTime> horarioAgendadoInicio = new HashSet<>();
-
-    @ElementCollection
-    @CollectionTable(name = "horario_de_funcionamento", joinColumns = @JoinColumn(name = "disponibilidade_id"))
-    private Set<LocalDateTime> horarioAgendadoFim = new HashSet<>();
+    private Set<HorarioDisponibilidadeDTO> horarios = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "dias_indisponiveis", joinColumns = @JoinColumn(name = "disponibilidade_id"))
@@ -59,22 +56,17 @@ public class Disponibilidade {
         this.calendarioDeNaoFuncionamento = calendarioDeFuncionamento;
     }
 
-    public Set<LocalDateTime> getHorariosAgendados() {
-        // Combinar todos os horários de início e fim em uma lista única
-        Set<LocalDateTime> todosHorarios = new HashSet<>();
-        todosHorarios.addAll(horarioAgendadoInicio); // Adiciona horários de início
-        todosHorarios.addAll(horarioAgendadoFim);
-        return todosHorarios;
-    }
-
     public boolean verificarDiaDisponivel(LocalDate data) {
         return !calendarioDeNaoFuncionamento.contains(data);
     }
 
+    public Set<HorarioDisponibilidadeDTO> getHorariosAgendados() {
+        return horarios;
+    }
+
     public void setHorarioAgendado(LocalDateTime inicio, LocalDateTime fim) {
         if (inicio.toLocalDate().isEqual(fim.toLocalDate()) && inicio.toLocalTime().isBefore(fim.toLocalTime())) {
-            this.horarioAgendadoInicio.add(inicio);
-            this.horarioAgendadoFim.add(fim);
+            horarios.add(new HorarioDisponibilidadeDTO(inicio, fim));
         }
     }
 
