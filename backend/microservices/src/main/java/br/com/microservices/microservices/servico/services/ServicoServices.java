@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.microservices.microservices.authentication.interfaces.UsuarioRepository;
+import br.com.microservices.microservices.authentication.model.Usuario;
 import br.com.microservices.microservices.loja.interfaces.ComercioRepository;
 import br.com.microservices.microservices.loja.models.Comercio;
 import br.com.microservices.microservices.loja.models.Disponibilidade;
@@ -48,11 +49,14 @@ public class ServicoServices {
         }
 
         boolean conflito = disponibilidade.getHorariosAgendados().stream()
-                .filter(horarioAgendado -> horarioAgendado.toLocalDate().equals(dia))
+                .filter(horarioAgendado -> horarioAgendado.getHorarioAgendadoInicio().toLocalDate().equals(dia))
                 .anyMatch(horarioAgendado -> {
-                    LocalTime inicioExistente = horarioAgendado.toLocalTime();
-                    LocalTime fimExistente = horarioAgendado.plusMinutes(tempoDeServico).toLocalTime();
-                    return (inicio.isAfter(fimExistente) && fim.isBefore(inicioExistente));
+                    LocalTime inicioExistente = horarioAgendado.getHorarioAgendadoInicio().toLocalTime();
+                    LocalTime fimExistente = horarioAgendado.getHorarioAgendadoFim().toLocalTime()
+                            .plusMinutes(tempoDeServico);
+                    return (inicio.isAfter(fimExistente.minusMinutes(5))
+                            && fim.isBefore(inicioExistente.plusMinutes(5)));
+
                 });
 
         if (conflito) {
@@ -66,16 +70,16 @@ public class ServicoServices {
 
     @Transactional
     public Servico registrarServicoComUsuario(ServicoClienteDTO servicosDTO) {
-        var servicoOpt = servicoRepository.findById(servicosDTO.getServicoId());
-        var usuarioOpt = usuarioRepository.encontrarByEmail(servicosDTO.getUsuarioDTO().getEmail());
-        var comercioOpt = comercioRepository.findByNomeLoja(servicosDTO.getNomeDaLoja());
-        if (servicoOpt.isPresent() && usuarioOpt != null && comercioOpt.isPresent()) {
+        Optional<Servico> servicoOpt = servicoRepository.findById(servicosDTO.getServicoId());
+        Usuario usuario = usuarioRepository.encontrarByEmail(servicosDTO.getUsuarioDTO().getEmail());
+        Optional<Comercio> comercioOpt = comercioRepository.findByNomeLoja(servicosDTO.getNomeDaLoja());
+        if (servicoOpt.isPresent() && usuario != null && comercioOpt.isPresent()) {
             Disponibilidade disponibilidade = comercioOpt.get().getDisponibilidades();
             Servico servico = servicoOpt.get();
             ServicoAgendado agendado = new ServicoAgendado(servico);
             if (disponibilidade.verificarDiaDisponivel(servicosDTO.getAgendamentoDTO().toLocalDate())) {
 
-                agendado.setUsuario(usuarioOpt);
+                agendado.setUsuario(usuario);
                 agendado.setServico(servico);
                 agendado.setDisponibilidade(disponibilidade);
                 agendado.setDiaDoSerivoco(servicosDTO.getAgendamentoDTO().toLocalDate());
@@ -84,7 +88,7 @@ public class ServicoServices {
                         servicosDTO.getAgendamentoDTO().toLocalTime().plusMinutes(servico.getTempoServico()));
                 if (!servicoNaAgendaOcupado(agendado)) {
                     servicoAgendadoRepository.save(agendado);
-                    usuarioOpt.setServico(List.of(agendado));
+                    usuario.setServico(agendado);
                     return servico;
                 }
             }

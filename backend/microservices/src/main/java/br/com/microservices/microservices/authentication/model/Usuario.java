@@ -55,6 +55,10 @@ public class Usuario implements UserDetails {
     @JsonManagedReference
     List<ServicoAgendado> servico;
 
+    public void setServico(ServicoAgendado servicoAgendado) {
+        this.servico.add(servicoAgendado);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.stream()
