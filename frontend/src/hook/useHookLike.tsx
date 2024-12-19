@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { apiUrl } from '../utils/ExportRoute';
 
 export const useGetLikes = () => {
     const [likes, setLikes] = useState(null);
@@ -7,7 +8,7 @@ export const useGetLikes = () => {
     useEffect(() => {
         const fetchLikes = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/like');
+                const response = await fetch(apiUrl + '/api/like');
                 if (!response.ok) {
                     throw new Error('Erro ao buscar os dados');
                 }
@@ -30,7 +31,7 @@ export const usePostLike = () => {
     const postLike = async () => {
 
         try {
-            const res = await fetch('http://localhost:8080/api/like', {
+            const res = await fetch(apiUrl + '/api/like', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON, mesmo sem corpo
