@@ -26,6 +26,8 @@ public class SecurityConfig {
 
     @Value("${api.security.route.prod}")
     private String secretProd;
+    // @Value("${api.security.route.dev}")
+    // private String secretDev;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -34,6 +36,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfiguration = new CorsConfiguration();
                     corsConfiguration.addAllowedOriginPattern(secretProd);
+                    // corsConfiguration.addAllowedOriginPattern(secretDev);
                     corsConfiguration.addAllowedHeader("*");
                     corsConfiguration.addAllowedMethod("*");
                     corsConfiguration.setAllowCredentials(true);
