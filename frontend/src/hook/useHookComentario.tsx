@@ -14,7 +14,10 @@ export const useGetComentarios = () => {
     useEffect(() => {
         const fetchComentarios = async () => {
             try {
-                const res = await fetch('http://localhost:8080/api/review');
+                const res = await fetch('http://localhost:8080/api/review', {
+                    method: "GET",
+                    credentials: 'include'
+                });
                 if (!res.ok) {
                     throw new Error('Erro ao buscar os comentários');
                 }
@@ -36,6 +39,7 @@ export const usePostComentario = () => {
     const postComentario = async (comentario: Comentario): Promise<Response> => {
         try {
             const response = await fetch('http://localhost:8080/api/review', {
+                credentials: 'include',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

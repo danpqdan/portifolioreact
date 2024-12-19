@@ -4,7 +4,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "80:80"
     environment:
       NODE_ENV: production
     deploy:
@@ -12,6 +12,10 @@ services:
         limits:
           cpus: "0.5"
           memory: "512M"
+    env_file:
+      - .env
+    depends_on:
+      - springio
 
   springio:
     build:
@@ -19,10 +23,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    environment:
-      ENV_GROUP: EnvService
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: "1G"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    env_file:
+      - .env
+
+networks:
+  backend-network:
+    driver: bridge
