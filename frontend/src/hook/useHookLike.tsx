@@ -8,7 +8,7 @@ export const useGetLikes = () => {
     useEffect(() => {
         const fetchLikes = async () => {
             try {
-                const response = await fetch(`${apiUrl}:8080/api/like`)
+                const response = await fetch(`${apiUrl}/api/like`)
                 if (!response.ok) {
                     throw new Error('Erro ao buscar os dados');
                 }
@@ -31,7 +31,7 @@ export const usePostLike = () => {
     const postLike = async () => {
 
         try {
-            const response = await fetch(`${apiUrl}:8080/api/like`, {
+            const response = await fetch(`${apiUrl}/api/like`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON, mesmo sem corpo

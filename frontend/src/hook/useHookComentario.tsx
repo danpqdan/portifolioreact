@@ -15,7 +15,7 @@ export const useGetComentarios = () => {
         const fetchComentarios = async () => {
             try {
                 console.log(apiUrl); // Verifique se a URL está correta
-                const res = await fetch(`${apiUrl}:8080/api/review`, {
+                const res = await fetch(`${apiUrl}/api/review`, {
 
                     method: "GET",
                     credentials: 'include'
@@ -40,7 +40,7 @@ export const useGetComentarios = () => {
 export const usePostComentario = () => {
     const postComentario = async (comentario: Comentario): Promise<Response> => {
         try {
-            const response = await fetch(`${apiUrl}:8080/api/review`, {
+            const response = await fetch(`${apiUrl}/api/review`, {
                 credentials: 'include',
                 method: 'POST',
                 headers: {
