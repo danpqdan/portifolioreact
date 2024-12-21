@@ -40,7 +40,11 @@ export const usePostComentario = () => {
     const postComentario = async (comentario: Comentario): Promise<Response> => {
         try {
             console.log(apiUrl)
+<<<<<<< HEAD
             const response = await fetch(`${apiUrl}:8080/api/review`, {
+=======
+            const response = await fetch("54.232.19.163:8080/api/review", {
+>>>>>>> 19e3230e58b8b415656284200bff3c9d980c92fe
                 credentials: 'include',
                 method: 'POST',
                 headers: {
