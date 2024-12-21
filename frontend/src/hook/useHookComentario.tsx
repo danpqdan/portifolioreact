@@ -14,7 +14,7 @@ export const useGetComentarios = () => {
     useEffect(() => {
         const fetchComentarios = async () => {
             try {
-                const res = await fetch(`${apiUrl}/api/review`, {
+                const res = await fetch(`${apiUrl}:8080/api/review`, {
 
                     method: "GET",
                     credentials: 'include'
@@ -39,7 +39,8 @@ export const useGetComentarios = () => {
 export const usePostComentario = () => {
     const postComentario = async (comentario: Comentario): Promise<Response> => {
         try {
-            const response = await fetch(`${apiUrl}/api/review`, {
+            console.log(apiUrl)
+            const response = await fetch(`${apiUrl}:8080/api/review`, {
                 credentials: 'include',
                 method: 'POST',
                 headers: {
