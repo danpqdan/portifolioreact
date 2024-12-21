@@ -13,7 +13,7 @@ export const useGetComentarios = () => {
     useEffect(() => {
         const fetchComentarios = async () => {
             try {
-                const res = await fetch("54.232.19.163:8080/api/review", {
+                const res = await fetch("localhost:8080/api/review", {
 
                     method: "GET",
                     credentials: 'include'
@@ -38,7 +38,7 @@ export const useGetComentarios = () => {
 export const usePostComentario = () => {
     const postComentario = async (comentario: Comentario): Promise<Response> => {
         try {
-            const response = await fetch("54.232.19.163:8080/api/review", {
+            const response = await fetch("localhost:8080/api/review", {
                 credentials: 'include',
                 method: 'POST',
                 headers: {
