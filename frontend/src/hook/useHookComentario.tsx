@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiUrl } from '../utils/URLUtil'
 export interface Comentario {
     remetente: string;
     titulo: string;
@@ -13,7 +14,7 @@ export const useGetComentarios = () => {
     useEffect(() => {
         const fetchComentarios = async () => {
             try {
-                const res = await fetch("http://18.231.152.145:8080/api/review", {
+                const res = await fetch(`${apiUrl}/api/review`, {
 
                     method: "GET",
                     credentials: 'include'
@@ -38,7 +39,7 @@ export const useGetComentarios = () => {
 export const usePostComentario = () => {
     const postComentario = async (comentario: Comentario): Promise<Response> => {
         try {
-            const response = await fetch("http://18.231.152.145:8080/api/review", {
+            const response = await fetch(`${apiUrl}/api/review`, {
                 credentials: 'include',
                 method: 'POST',
                 headers: {
