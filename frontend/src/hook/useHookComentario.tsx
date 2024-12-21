@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { apiUrl } from '../utils/ExportRoute';
 export interface Comentario {
     remetente: string;
     titulo: string;
@@ -14,7 +13,6 @@ export const useGetComentarios = () => {
     useEffect(() => {
         const fetchComentarios = async () => {
             try {
-                console.log(apiUrl); // Verifique se a URL está correta
                 const res = await fetch("http://18.231.152.145/api/review", {
 
                     method: "GET",
