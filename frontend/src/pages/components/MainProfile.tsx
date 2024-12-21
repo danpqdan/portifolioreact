@@ -14,7 +14,9 @@ const MainProfile = () => {
     const { postLike } = usePostLike();
     const [showModal, setShowModal] = useState(false);
     const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
+    const closeModal = () => {
+        setShowModal(false);
+    }
 
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);

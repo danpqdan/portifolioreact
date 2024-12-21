@@ -30,6 +30,7 @@ export const Modal: React.FC<ModalProps> = ({ showModal, closeModal, postLike })
             review,
         };
 
+        closeModal();
 
         try {
             const response = await postComentario(newComentario);
@@ -39,7 +40,6 @@ export const Modal: React.FC<ModalProps> = ({ showModal, closeModal, postLike })
                 setBody('');
                 setTitulo('');
                 setReview(0);
-                closeModal();
                 postLike();
             } else {
                 const errorData = await response.json();
@@ -55,7 +55,7 @@ export const Modal: React.FC<ModalProps> = ({ showModal, closeModal, postLike })
 
 
     const handleClick = (star: number) => {
-        setReview(star); // Atualiza a avaliação com a estrela clicada
+        setReview(star);
     };
 
     if (!showModal) return null;
@@ -107,8 +107,8 @@ export const Modal: React.FC<ModalProps> = ({ showModal, closeModal, postLike })
                                 style={{
                                     cursor: 'pointer',
                                     fontSize: '24px',
-                                    color: star <= review ? '#FFD700' : '#ccc', // Estrela preenchida ou vazia
-                                    transition: 'color 0.2s', // Efeito de transição suave para a cor
+                                    color: star <= review ? '#FFD700' : '#ccc',
+                                    transition: 'color 0.2s',
                                 }}
                             >
                                 ★
