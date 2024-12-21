@@ -9,8 +9,6 @@ services:
       NODE_ENV: production
     env_file:
       - .env
-    depends_on:
-      - springio
 
   springio:
     build:
