@@ -6,7 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 80,
-    host: true,
-  },
-  base: "/",
+    https: true,
+    cors: {
+      origin: 'http://dsplayground.com.br/:8080',
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      credentials: true,
+    },
+  }
 })
