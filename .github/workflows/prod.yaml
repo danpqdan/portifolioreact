@@ -1,23 +1,28 @@
-name: Deploy Application WebServices
+name: Deploy to EC2
+
 on:
   push:
-    branches: [PortifolioWebServices]
+    branches:
+      - PortifolioWebServices
 
 jobs:
   deploy:
-    name: Deploy to EC2
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout the files
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Copy files with SSH
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
-          ARGS: "-rltgoDzvO --delete"
-          SOURCE: "./"
-          REMOTE_HOST: ${{secrets.REMOTE_HOST}}
-          REMOTE_USER: ${{secrets.REMOTE_USER}}
-          TARGET: ${{secrets.TARGET_DIR}}
-          EXCLUDE: "/dist/, /node_modules/, **.env, rebuild_app.sh, watcher.sh"
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-232-19-163.sa-east-1.compute.amazonaws.com << 'EOF'
+            cd portifolioreact
+            git pull
+            docker compose down -v
+            docker compose up -d --build
+          EOF
