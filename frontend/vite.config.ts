@@ -8,7 +8,7 @@ export default defineConfig({
     port: 80,
     https: true,
     cors: {
-      origin: 'http://54.232.19.163:8080',
+      origin: 'https://54.232.19.163:8080',
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
       credentials: true,
     },
