@@ -14,9 +14,6 @@ RUN mvn clean install -DskipTests
 # Etapa de execução
 FROM openjdk:17-jdk-slim
 
-# Expor a porta 8080 para acesso à aplicação
-EXPOSE 8080
-
 # Copiar o JAR gerado na etapa anterior para a imagem final
 COPY --from=build /backend/target/microservices-0.0.1-SNAPSHOT.jar /app.jar
 
