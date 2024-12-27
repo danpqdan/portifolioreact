@@ -4,7 +4,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "81:81"
     environment:
       NODE_ENV: production
     env_file:
@@ -17,7 +17,7 @@ services:
       context: ./backend/microservices
       dockerfile: Dockerfile
     ports:
-      - "81:81"
+      - "80:80"
     env_file:
       - .env
     depends_on:
