@@ -9,6 +9,8 @@ services:
       NODE_ENV: production
     env_file:
       - .env
+    networks:
+      - network
 
   springio:
     build:
@@ -16,11 +18,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-
     env_file:
       - .env
     depends_on:
       - db
+    networks:
+      - network
 
   db:
     image: postgres:latest
@@ -28,7 +31,9 @@ services:
       - "5432:5432"
     env_file:
       - .env
+    networks:
+      - network
 
 networks:
-  backend-network:
+  network:
     driver: bridge
