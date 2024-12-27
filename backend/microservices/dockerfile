@@ -17,8 +17,6 @@ FROM openjdk:17-jdk-slim
 # Copiar o JAR gerado na etapa anterior para a imagem final
 COPY --from=build /backend/target/microservices-0.0.1-SNAPSHOT.jar /app.jar
 
-# Copiar o Keystore para o diretório correto dentro do container
-COPY src/main/resources/keystore.jks /app/keystore.jks
 
 # Comando de execução da aplicação Spring Boot
 ENTRYPOINT ["java", "-jar", "/app.jar"]
