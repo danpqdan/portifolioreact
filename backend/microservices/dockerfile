@@ -1,16 +1,27 @@
 # Etapa de build
 FROM ubuntu:latest AS build
 
+# Instalar dependências para compilar o projeto (Java 17 e Maven)
 RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 
+# Copiar o código-fonte do backend para dentro da imagem
 COPY . /backend
 WORKDIR /backend
 
+# Rodar o Maven para compilar o projeto e gerar o JAR
 RUN mvn clean install -DskipTests
 
+# Etapa de execução
 FROM openjdk:17-jdk-slim
+
+# Expor a porta 8080 para acesso à aplicação
 EXPOSE 8080
 
-COPY --from=build /backend/target/microservices-0.0.1-SNAPSHOT.jar app.jar
+# Copiar o JAR gerado na etapa anterior para a imagem final
+COPY --from=build /backend/target/microservices-0.0.1-SNAPSHOT.jar /app.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Copiar o Keystore para o diretório correto dentro do container
+COPY src/main/resources/keystore.jks /app/keystore.jks
+
+# Comando de execução da aplicação Spring Boot
+ENTRYPOINT ["java", "-jar", "/app.jar"]
