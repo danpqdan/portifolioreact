@@ -1,5 +1,6 @@
 services:
   reactvite:
+    image: reactvite
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -15,6 +16,7 @@ services:
       - network
 
   springio:
+    image: springio
     build:
       context: ./backend/microservices
       dockerfile: Dockerfile
