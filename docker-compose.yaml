@@ -4,11 +4,13 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "81:81"
+      - "3000:3000"
     environment:
       NODE_ENV: production
     env_file:
       - .env
+    volumes:
+      - ./frontend/dist:/var/www/html/frontend
     networks:
       - network
 
