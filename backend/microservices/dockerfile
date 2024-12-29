@@ -1,5 +1,4 @@
-# Etapa de build
-FROM ubuntu:latest AS build
+FROM openjdk:17-jdk-slim AS build
 
 # Instalar dependências para compilar o projeto (Java 17 e Maven)
 RUN apt-get update && apt-get install -y openjdk-17-jdk maven
@@ -8,15 +7,22 @@ RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 COPY . /backend
 WORKDIR /backend
 COPY certs/dsplayground-certificate.p12 /etc/ssl/certs/
+
 # Rodar o Maven para compilar o projeto e gerar o JAR
 RUN mvn clean install -DskipTests
 
 # Etapa de execução
+# Etapa de Execução - Criar uma imagem final para rodar o JAR
 FROM openjdk:17-jdk-slim
 
 # Copiar o JAR gerado na etapa anterior para a imagem final
-COPY --from=build /backend/target/microservices-0.0.1-SNAPSHOT.jar /app.jar
+COPY --from=build backend/target/microservices-0.0.1-SNAPSHOT.jar /app.jar
 
+# ALTERAÇÃO: Copiar o arquivo de certificado .p12 para o diretório /app/resources
+COPY ./src/main/resources/dsplayground-certificate.p12 /app/resources/dsplayground-certificate.p12
+
+# Definir a porta exposta
+EXPOSE 8443
 
 # Comando de execução da aplicação Spring Boot
 ENTRYPOINT ["java", "-jar", "/app.jar"]

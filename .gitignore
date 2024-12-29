@@ -1,0 +1,31 @@
+@@ -0,0 +1,31 @@
+# Ignorar arquivos de configuração sensíveis
+.env
+
+# Ignorar o diretório de dependências do Maven (se estiver usando Maven)
+/target/
+
+# Ignorar o diretório do Docker (se estiver criando imagens)
+.docker/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos temporários
+*.tmp
+*.swp
+
+# Ignorar configurações do IDE
+/.idea/
+/.vscode/
+
+# Ignorar arquivos compilados
+*.class
+*.jar
+*.war
+
+# Ignorar a pasta node_modules (se for um projeto Node.js)
+node_modules/
+
+# Ignorar outros arquivos de configuração local
+*.iml
