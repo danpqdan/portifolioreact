@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+const securityRoute = import.meta.env.VITE_REACT_SECURITY_ROUTE_PROD;
+
 
 export const useGetLikes = () => {
     const [likes, setLikes] = useState(null);
@@ -7,7 +9,7 @@ export const useGetLikes = () => {
     useEffect(() => {
         const fetchLikes = async () => {
             try {
-                const response = await fetch("https://18.230.255.100:8080/api/like")
+                const response = await fetch(`${securityRoute}/api/like`)
                 if (!response.ok) {
                     throw new Error('Erro ao buscar os dados');
                 }
@@ -30,7 +32,7 @@ export const usePostLike = () => {
     const postLike = async () => {
 
         try {
-            const response = await fetch("https://18.230.255.100:8080/api/like", {
+            const response = await fetch(`${securityRoute}/api/like`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON, mesmo sem corpo
