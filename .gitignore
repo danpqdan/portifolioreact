@@ -1,5 +1,6 @@
 # Ignorar arquivos de configuração sensíveis
 .env
+.gitignore
 
 # Ignorar o diretório de dependências do Maven (se estiver usando Maven)
 /target/
@@ -22,10 +23,14 @@
 *.class
 *.jar
 *.war
+sensive-files
 
 # Ignorar a pasta node_modules (se for um projeto Node.js)
 node_modules/
 
 # Ignorar outros arquivos de configuração local
 *.iml
+
+/lock
+
 
