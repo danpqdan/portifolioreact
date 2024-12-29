@@ -13,7 +13,7 @@ export const useGetComentarios = () => {
     useEffect(() => {
         const fetchComentarios = async () => {
             try {
-                const res = await fetch("https://api.dsplayground/api/review", {
+                const res = await fetch("https://api.dsplayground.com.br/api/review", {
 
                     method: "GET",
                     credentials: 'include'
@@ -38,7 +38,7 @@ export const useGetComentarios = () => {
 export const usePostComentario = () => {
     const postComentario = async (comentario: Comentario): Promise<Response> => {
         try {
-            const response = await fetch("https://api.dsplayground/api/review", {
+            const response = await fetch("https://api.dsplayground.com.br/api/review", {
                 credentials: 'include',
                 method: 'POST',
                 headers: {
