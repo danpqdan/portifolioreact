@@ -32,5 +32,9 @@ node_modules/
 *.iml
 
 /lock
+dsplayground.key
+dsplayground.pem
+backend/certs/dsplayground.key
+backend/certs/dsplayground.pem
 
 
