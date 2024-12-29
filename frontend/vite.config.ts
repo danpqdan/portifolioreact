@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 80,
-    https: false,
+    https: true,
     cors: {
       origin: 'http://18.230.255.100:8080',
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
