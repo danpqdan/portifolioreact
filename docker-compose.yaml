@@ -35,6 +35,11 @@ services:
       - .env
     networks:
       - network
+    volumes:
+      - portifolioreact-db-data:/var/lib/postgresql/data
+
+volumes:
+  portifolioreact-db-data:
 
 networks:
   network:
