@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { DiAtom } from 'react-icons/di';
-import { FaGithub, FaInstagram, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa';
+import { FaGithub, FaInstagram, FaLinkedinIn, FaWhatsapp, FaRegFilePdf } from 'react-icons/fa';
 import { FcLike } from 'react-icons/fc';
 import imgdan from '../../assets/danimg.jpg';
 
@@ -56,6 +56,7 @@ const MainProfile = () => {
                         <button ><a href="https://github.com/danpqdan" target='_blank' ><FaGithub /></a></button>
                         <button><a href="tel:+5511962696757"><FaWhatsapp /></a></button>
                         <button onClick={openModal}><form><FcLike /> {likes}</form><label></label></button>
+                        <button><a href="https://drive.google.com/file/d/1s0lYuoXXGKjY_539znl-ucmS3G-QmL7A/view?usp=sharing"><FaRegFilePdf /></a> </button>
                     </div>
                     <Modal showModal={showModal} closeModal={closeModal} postLike={postLike} />
                 </div>
@@ -82,6 +83,7 @@ const MainProfile = () => {
                             <button><a href="https://github.com/danpqdan" target='_blank' ><FaGithub /></a></button>
                             <button><a href="tel:+5511962696757"><FaWhatsapp /></a></button>
                             <button onClick={openModal}><form><FcLike /> {likes}</form><label></label></button>
+                            <button><a href="https://drive.google.com/file/d/1s0lYuoXXGKjY_539znl-ucmS3G-QmL7A/view?usp=sharing"><FaRegFilePdf /></a> </button>
                         </div>
                     </div>
                     <Modal showModal={showModal} closeModal={closeModal} postLike={postLike} />
@@ -111,6 +113,7 @@ const MainProfile = () => {
                             <button><a href="https://github.com/danpqdan" target='_blank' ><FaGithub /></a></button>
                             <button><a href="tel:+5511962696757"><FaWhatsapp /></a></button>
                             <button onClick={openModal}><form><FcLike /> {likes}</form><label></label></button>
+                            <button><a href="https://drive.google.com/file/d/1s0lYuoXXGKjY_539znl-ucmS3G-QmL7A/view?usp=sharing" target='_blank'><FaRegFilePdf /></a> </button>
                         </div>
                     </div>
 
