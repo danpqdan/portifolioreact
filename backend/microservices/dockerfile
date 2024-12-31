@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 # Copiar o código-fonte do backend para dentro da imagem
 COPY . /backend
 WORKDIR /backend
-COPY certs/dsplayground-certificate.p12 /etc/ssl/certs/
+COPY certs/dsplayground.p12 /etc/ssl/certs/
 
 # Rodar o Maven para compilar o projeto e gerar o JAR
 RUN mvn clean install -DskipTests
