@@ -24,9 +24,7 @@ import io.jsonwebtoken.security.SignatureException;
 @Service
 public class TokenService {
 
-    // @Value("${api.security.token.secret}")
-    // private String secretApi;
-    @Value("${API_SECRET_ENV_SECURITY}")
+    @Value("${api.security.token.secret}")
     private String secretApi;
 
     private SecretKey secretKey;
