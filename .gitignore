@@ -29,3 +29,4 @@ node_modules/
 
 # Ignorar outros arquivos de configuração local
 *.iml
+*.pem
