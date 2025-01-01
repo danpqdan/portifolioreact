@@ -13,6 +13,8 @@ interface User {
 }
 
 export const Registro: React.FC = () => {
+     const navigate = useNavigate();
+
     const [user, setUser] = useState<User>({
         username: '',
         email: '',
@@ -22,7 +24,6 @@ export const Registro: React.FC = () => {
         pushNotification: false,
     });
 
-    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -45,7 +46,7 @@ export const Registro: React.FC = () => {
     return (
         <div className="container">
             <h1>Registre-se</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="form-global">
                 <input
                     placeholder="Usuário"
                     value={user.username}
@@ -91,6 +92,7 @@ export const Registro: React.FC = () => {
                 <div className='button-content'>
                     <button type="submit">Enviar</button>
                     <button>Limpar</button>
+                    <button type="button" onClick={() => navigate('/login')}>Já sou usuario</button>
                 </div>
             </form>
         </div>
