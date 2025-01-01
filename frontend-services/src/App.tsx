@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaExpeditedssl } from "react-icons/fa";
 import { GiPadlock } from "react-icons/gi";
-import { useNavigate } from "react-router-dom"; // Remova BrowserRouter
+import { useNavigate } from "react-router-dom";
 import "./App.css";
 import AppRoutes from "./AppRoute";
 
@@ -46,7 +46,7 @@ export function App() {
         )}
       </div>
       <div className="content-container">
-        <AppRoutes /> {/* Não precisa de <Router> aqui */}
+        <AppRoutes />
 
         {isLogin && (
           <footer className="footer">
