@@ -1,0 +1,6 @@
+cloudflare:
+  token: UaWgwf9qyoITAPPJ3IkQGfg2Ex80Y1TT05vZ3M5y
+
+dns:
+  - zone: "dsplayground.com.br"
+    subdomain: "www", "api"
