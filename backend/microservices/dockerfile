@@ -19,7 +19,7 @@ FROM openjdk:17-jdk-slim
 COPY --from=build backend/target/microservices-0.0.1-SNAPSHOT.jar /app.jar
 
 # ALTERAÇÃO: Copiar o arquivo de certificado .p12 para o diretório /app/resources
-COPY certs/dsplayground.p12 /app/resources/dsplayground.p12
+COPY /certs/dsplayground.p12 /app/resources/dsplayground.p12
 
 # Comando de execução da aplicação Spring Boot
 ENTRYPOINT ["java", "-jar", "/app.jar"]

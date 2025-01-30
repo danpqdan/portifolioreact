@@ -24,7 +24,7 @@ public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
 
-    @Value("${api.security.route.prod}")
+    @Value("${api.security.token.secret}")
     private String secretProd;
     // @Value("${api.security.route.dev}")
     // private String secretDev;

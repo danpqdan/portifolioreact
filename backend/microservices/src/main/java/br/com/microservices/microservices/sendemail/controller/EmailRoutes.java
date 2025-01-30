@@ -20,7 +20,9 @@ import br.com.microservices.microservices.sendemail.interfaces.ContatoRepository
 import br.com.microservices.microservices.sendemail.interfaces.LikeRepository;
 import br.com.microservices.microservices.sendemail.models.ContatoModel;
 import br.com.microservices.microservices.sendemail.models.LikeModel;
+import br.com.microservices.microservices.sendemail.models.ViewerDTO;
 import br.com.microservices.microservices.sendemail.services.EmailService;
+import br.com.microservices.microservices.sendemail.services.ViewerService;
 import br.com.microservices.microservices.servico.exceptions.ErrorDTO;
 import jakarta.validation.Valid;
 
@@ -34,6 +36,20 @@ public class EmailRoutes {
 
     @Autowired
     EmailService emailService;
+    @Autowired
+    private ViewerService viewerService;
+
+    @PostMapping("/viewer")
+    public void postViewer(@RequestBody ViewerDTO viewerDTO) {
+        viewerService.saveViewerAccess(viewerDTO);
+    }
+
+    @GetMapping("/viewer")
+    public ResponseEntity<Long> getViewer() {
+        long count = viewerService.countViewerAccess();
+        return ResponseEntity.ok(count);    
+    }
+
 
     @PostMapping("/like")
     public void postLiked() {
