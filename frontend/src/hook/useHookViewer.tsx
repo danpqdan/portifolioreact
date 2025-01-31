@@ -15,14 +15,14 @@ const useViewer = () => {
         const ip = ipData.ip;
 
         // Envia os dados via POST para '/viewer'
-        await fetch("http://localhost:8080/api/viewer", {
+        await fetch("https://api.dsplayground.com.br/api/viewer", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ip, userAgent }),
         });
 
         // Busca a contagem de acessos via GET
-        const countResponse = await fetch("http://localhost:8080/api/viewer");
+        const countResponse = await fetch("https://api.dsplayground.com.br/api/viewer");
         const countData = await countResponse.json();
         setCount(countData);
       } catch (error) {
