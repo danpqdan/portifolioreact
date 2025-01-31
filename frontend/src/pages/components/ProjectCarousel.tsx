@@ -38,15 +38,15 @@ const ProjectCarousel = () => {
                 }}
             >
                 {slides.map((slide, index) => (
-                    <>
-                        <div className="carousel-slide" key={index}>
-                            <h2 className="tittle-project" style={{ fontWeight: "100", textTransform: "uppercase", color: "white", width: "100%" }}>{slide.description}</h2>
-                            <button className='btn-project' onClick={() => window.open(slide.link, '_blank')} data-link={slide.link}>
-                                <img src={slide.image} alt={`Slide ${index}`} className="carousel-image" />
-                            </button>
-                            <p style={{color: 'white'}}>{slide.detalhes}</p>
-                        </div>
-                    </>
+                    <div className="carousel-slide" key={index}>
+                        <h2 className="tittle-project" style={{ fontWeight: "100", textTransform: "uppercase", color: "white", width: "100%" }}>
+                            {slide.description}
+                        </h2>
+                        <button className='btn-project' onClick={() => window.open(slide.link, '_blank')} data-link={slide.link}>
+                            <img src={slide.image} alt={`Slide ${index}`} className="carousel-image" />
+                        </button>
+                        <p style={{ color: 'white' }}>{slide.detalhes}</p>
+                    </div>
                 ))}
             </div>
             <button className="carousel-button prev" onClick={prevSlide}>

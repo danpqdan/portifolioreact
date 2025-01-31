@@ -36,6 +36,13 @@ p {
     width: 40px;
     height: 40px;
 }
+.acess{
+    align-items: end;
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    justify-items: end;
+}
 
 
 
@@ -73,6 +80,14 @@ p {
         width: 40px;
         height: 40px;
     }
+    .acess{
+        align-items: end;
+        display: flex;
+        justify-content: flex-end;
+        align-items: end;
+        justify-items: end;
+    }
+    
 }
 
 @media only screen and (max-width: 479px) {
@@ -109,4 +124,11 @@ p {
         width: 40px;
         height: 40px;
     }
+    .acess{
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        background: none;
+    }
+    
 }

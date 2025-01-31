@@ -1,6 +1,7 @@
 package br.com.microservices.microservices.sendemail.services;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,17 @@ public class ViewerService {
     private ViewerRepository viewerRepository;
 
     public void saveViewerAccess(ViewerDTO dto) {
-        ViewerModel viewer = new ViewerModel();
-        viewer.setIp(dto.getIp());
-        viewer.setUserAgent(dto.getUserAgent());
-        viewer.setAccessTime(LocalDateTime.now());
-        viewerRepository.save(viewer);
+        Optional<ViewerModel> existingViewer = viewerRepository.findByIp(dto.getIp());
+
+        if (existingViewer.isEmpty()) {
+            ViewerModel viewer = new ViewerModel();
+            viewer.setIp(dto.getIp());
+            viewer.setUserAgent(dto.getUserAgent());
+            viewer.setAccessTime(LocalDateTime.now());
+            viewerRepository.save(viewer);
+        } else {
+            System.out.println("IP já registrado: " + dto.getIp());
+        }
     }
 
     public long countViewerAccess() {

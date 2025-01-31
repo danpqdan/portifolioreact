@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import { FaGithub } from 'react-icons/fa';
 
 import "../css/style.module.navbar.css";
+import useViewer from '../../hook/useHookViewer';
 
 const Navbar = () => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const count = useViewer();
+
 
     // Função para atualizar o estado do tamanho da janela
     const handleResize = () => {
@@ -26,8 +29,8 @@ const Navbar = () => {
                     <a href="https://github.com/danpqdan" className='gitnavbar'>
                         <FaGithub className='giticon' />
                         <span>Daniel Santos</span>
-
                     </a>
+                    <button className='acess'>{count !== null ? <p>Total de acessos: {count}</p> : <p>Carregando...</p>}</button>
                 </nav>
             )}
             {windowWidth > 480 && windowWidth <= 1024 && (
@@ -36,6 +39,7 @@ const Navbar = () => {
                         <FaGithub className='giticon' />
                         <span>Daniel Santos</span>
                     </a>
+                    <button className='acess'>{count !== null ? <p>Total de acessos: {count}</p> : <p>Carregando...</p>}</button>
                 </nav>
 
             )}
@@ -44,8 +48,8 @@ const Navbar = () => {
                     <a href="https://github.com/danpqdan" target='_blank' className='gitnavbar'>
                         <FaGithub className='giticon' />
                         <span>Daniel Santos</span>
-
                     </a>
+                    <button className='acess'>{count !== null ? <p>Total de acessos: {count}</p> : <p>Carregando...</p>}</button>
                 </nav>
 
             )}
