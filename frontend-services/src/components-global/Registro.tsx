@@ -1,7 +1,7 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/registro.css';
+import useRegister from '../hooks/useRegistro';
 
 interface User {
     username: string;
@@ -13,7 +13,8 @@ interface User {
 }
 
 export const Registro: React.FC = () => {
-     const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { handleRegister, error } = useRegister();
 
     const [user, setUser] = useState<User>({
         username: '',
@@ -24,25 +25,31 @@ export const Registro: React.FC = () => {
         pushNotification: false,
     });
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (user.senha !== user.confirmarSenha) {
-            alert('Senhas não conferem');
+            alert('As senhas não coincidem.');
             return;
         }
 
-        try {
-            await axios.post('http://localhost:8080/auth/singup/usuario', user);
+        if (!user.privacyPolicy) {
+            alert('Você deve aceitar a política de privacidade.');
+            return;
+        }
 
-            alert('Usuário cadastrado com sucesso');
-            navigate('/login');
-        } catch (error: any) {
-            console.error('Error during user registration:', error);
-            alert('Erro ao cadastrar usuário');
+        await handleRegister({
+            username: user.username,
+            email: user.email,
+            password: user.senha,
+        });
+
+        if (error) {
+            console.log(error);
+            alert(error)
         }
     };
+
     return (
         <div className="container">
             <h1>Registre-se</h1>
@@ -91,11 +98,17 @@ export const Registro: React.FC = () => {
                 </div>
                 <div className='button-content'>
                     <button type="submit">Enviar</button>
-                    <button>Limpar</button>
-                    <button type="button" onClick={() => navigate('/login')}>Já sou usuario</button>
+                    <button type="button" onClick={() => setUser({
+                        username: '',
+                        email: '',
+                        senha: '',
+                        confirmarSenha: '',
+                        privacyPolicy: false,
+                        pushNotification: false,
+                    })}>Limpar</button>
+                    <button type="button" onClick={() => navigate('/login')}>Já sou usuário</button>
                 </div>
             </form>
         </div>
     );
 };
-

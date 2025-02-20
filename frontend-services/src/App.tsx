@@ -4,19 +4,19 @@ import { GiPadlock } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
 import AppRoutes from "./AppRoute";
+import { useAuth } from "./hooks/authContext";
 
 export function App() {
   const navigate = useNavigate();
   const [isShow, setIsShow] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const { isLoggedIn, logout } = useAuth();
 
-  
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
-    if(!!token) {
-    setIsLogin(false);
+    if (!!token) {
+      logout();
     } else {
-    setIsLogin(true);
+      navigate('/login');
     }
   }, []);
 
@@ -48,7 +48,7 @@ export function App() {
       <div className="content-container">
         <AppRoutes />
 
-        {isLogin && (
+        {!isLoggedIn && (
           <footer className="footer">
             <div className="buttons-options">
               <button>Torne-se vendedor</button>
